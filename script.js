@@ -1,3 +1,5 @@
+function setup(){}
+
 // シーン、カメラ、レンダラーの初期設定
 
 const scene2 = new THREE.Scene();
@@ -52,10 +54,13 @@ function animate() {
     requestAnimationFrame(animate);
 
     
+    rx = rotationX / 360*2*PI;
+    ry = rotationY / 360*2*PI;
+    rz = rotationZ / 360*2*PI;
 
 
     let v1 = new THREE.Vector3(0, 3, 0);
-    let el = new THREE.Euler(rx, ry, rz, 'ZYX');
+    let el = new THREE.Euler(rx, rz, -ry, 'YXZ');
     v1.applyEuler(el);
 
     camera2.position.x = v1.x;
@@ -78,10 +83,3 @@ function receive(arg){
 }
 
 
-
-window.addEventListener("deviceorientation", (dat) => {
-    rz = dat.alpha/360*2*Math.PI;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-    rx = dat.beta/360*2*Math.PI;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-    ry = dat.gamma/360*2*Math.PI;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
-});
- 
