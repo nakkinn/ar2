@@ -80,8 +80,8 @@ function receive(arg){
 
 
 window.addEventListener("deviceorientation", (dat) => {
-    rz = dat.alpha;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
-    ry = dat.beta;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
-    rx = dat.gamma;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
+    rz = dat.alpha/360*2*Math.PI;  // z軸（表裏）まわりの回転の角度（反時計回りがプラス）
+    ry = dat.beta/360*2*Math.PI;   // x軸（左右）まわりの回転の角度（引き起こすとプラス）
+    rx = dat.gamma/360*2*Math.PI;  // y軸（上下）まわりの回転の角度（右に傾けるとプラス）
 });
  
