@@ -8,10 +8,44 @@
 
   <body>
 
-    <canvas id="canvas2"></canvas>
+    <canvas id="canvas1"></canvas>
+
+    <script>
+        function post_function( result_string ) {
+            if ( result_string === "granted" ) {
+                // ユーザが許可した場合、文字列"granted"が返る
+            }
+            else if ( result_string === "denied" ) {
+        // ユーザが拒否した場合、文字列"denied"が返る
+            }
+        }
+        function permission_request() {
+            if ( DeviceOrientationEvent
+                && DeviceOrientationEvent.requestPermission
+                && typeof DeviceOrientationEvent.requestPermission === 'function'
+            ) {
+        DeviceMotionEvent.requestPermission().then( post_function );
+        window.addEventListener( "devicemotion", function(e) {
+                    // 何らかの処理
+                }, false );
+            }
+            if ( DeviceOrientationEvent
+                && DeviceOrientationEvent.requestPermission
+                && typeof DeviceOrientationEvent.requestPermission === 'function'
+            ) {
+                DeviceOrientationEvent.requestPermission().then( postf_unction );
+        window.addEventListener( "deviceorientation", function(e) {
+                    // 何らかの処理
+                }, false );
+            }
+        }
+    </script>
+        
+        
+    <button onclick="permission_request();" id="button1">動作と方向へのアクセス許可</button>
+  
 
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
-    <!-- <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script> -->
     <script src="https://unpkg.com/three@0.131.1/examples/js/loaders/GLTFLoader.js"></script>
 
     <script src="p5.js"></script>
@@ -20,39 +54,9 @@
 
 
 
-    <script>
-      function post_function( result_string ) {
-          if ( result_string === "granted" ) {
-              // ユーザが許可した場合、文字列"granted"が返る
-          }
-          else if ( result_string === "denied" ) {
-      // ユーザが拒否した場合、文字列"denied"が返る
-          }
-      }
-      function permission_request() {
-          if ( DeviceOrientationEvent
-              && DeviceOrientationEvent.requestPermission
-              && typeof DeviceOrientationEvent.requestPermission === 'function'
-          ) {
-      DeviceMotionEvent.requestPermission().then( post_function );
-      window.addEventListener( "devicemotion", function(e) {
-                  // 何らかの処理
-              }, false );
-          }
-          if ( DeviceOrientationEvent
-              && DeviceOrientationEvent.requestPermission
-              && typeof DeviceOrientationEvent.requestPermission === 'function'
-          ) {
-              DeviceOrientationEvent.requestPermission().then( postf_unction );
-      window.addEventListener( "deviceorientation", function(e) {
-                  // 何らかの処理
-              }, false );
-          }
-      }
-    </script>
-      
-      
-    <button onclick="permission_request();" id="button1">動作と方向へのアクセス許可</button>
+    
+
+
 
 
   </body>
