@@ -50,14 +50,15 @@ function handleOrientation(event) {
         beta = event.beta;
         gamma = event.gamma;
 
-        text1.innerHTML = 'alpha-z = ' + int(Number(alpha));
-        text2.innerHTML = 'beta-x = ' + int(Number(beta));
-        text3.innerHTML = 'gamma-y = ' + int(Number(gamma));
+        text1.innerHTML = 'alpha-z = ' + Math.round(Number(alpha));
+        text2.innerHTML = 'beta-x = ' + Math.round(Number(beta));
+        text3.innerHTML = 'gamma-y = ' + Math.round(Number(gamma));
 
         alpha = Number(alpha)/180*Math.PI;
         beta = Number(beta)/180*Math.PI;
         gamma = Number(gamma)/180*Math.PI;
 
+        console.log(alpha, beta, gamma);
     }
 }
 
@@ -137,9 +138,9 @@ function animate() {
     camera.position.y = v1.y;
     camera.position.z = v1.z;
 
-    camera.position.x = 3 * Math.cos(theta1*multi) * Math.cos(phi1*multi+Math.PI/2);
-    camera.position.y = 3 * Math.sin(theta1*multi);
-    camera.position.z = 3 * Math.cos(theta1*multi) * Math.sin(phi1*multi+Math.PI/2);
+    camera.position.x = 2.6 * Math.cos(theta1*multi) * Math.cos(phi1*multi+Math.PI/2);
+    camera.position.y = 2.6 * Math.sin(theta1*multi);
+    camera.position.z = 2.6 * Math.cos(theta1*multi) * Math.sin(phi1*multi+Math.PI/2);
 
     camera.lookAt(0, 0, 0);
     
