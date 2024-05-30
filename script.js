@@ -6,20 +6,11 @@ let sensoractive = false;
 function permission_request() {
 
     if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
-        DeviceOrientationEvent.requestPermission().then( post_function );
+        DeviceOrientationEvent.requestPermission().then();
         window.addEventListener( "deviceorientation", handleOrientation, false );
     }
 }
 
-//ポップのボタンが押されたとき
-function post_function( result_string ) {
-    //許可が押されたとき
-    if ( result_string === "granted" ) {
-        sensoractive = true;
-    }else if ( result_string === "denied" ) {
-        //拒否を押されたときの処理（なし）
-    }
-}
 
 
 //オイラー角を表示するためのp要素
