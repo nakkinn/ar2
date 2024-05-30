@@ -2,26 +2,16 @@
 let sensoractive = false;
 
 
-
-
-
-//動作と方向へのアクセス許可のボタンが押されたとき、ポップを出して許可がおされたらジャイロ機能をオンにする
+//動作と方向へのアクセス許可のボタンが押されたとき、ポップを出す
 function permission_request() {
 
-    // if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
-    //     DeviceMotionEvent.requestPermission().then( post_function );
-    //     window.addEventListener( "devicemotion", function(e){}, false );
-    // }
-
     if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
-
         DeviceOrientationEvent.requestPermission().then( post_function );
         window.addEventListener( "deviceorientation", handleOrientation, false );
-
     }
 }
 
-
+//ポップのボタンが押されたとき
 function post_function( result_string ) {
     //許可が押されたとき
     if ( result_string === "granted" ) {
@@ -32,20 +22,23 @@ function post_function( result_string ) {
 }
 
 
+//オイラー角を表示するためのp要素
 const text1 = document.getElementById('text1');
 const text2 = document.getElementById('text2');
 const text3 = document.getElementById('text3');
 
 
+//動きの大きさを調整するスライダー
 const slider1 = document.getElementById('slider1');
 
 
+//オイラー角
 let alpha=0, beta=Math.PI/2, gamma=0;
 
-//window.addEventListener('deviceorientation', handleOrientation);
 
+//スマホが
 function handleOrientation(event) {
-    if(sensoractive){
+    if(sensoractive||true){
 
         alpha = event.alpha;
         beta = event.beta;

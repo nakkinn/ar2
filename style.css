@@ -1,8 +1,10 @@
+/*スマホ用に拡大*/
+
 input{
     position:absolute;
-    left:550px;
+    left:330px;
     transform:scale(4);
-    width:240px;
+    width:200px;
 }
 
 p{
