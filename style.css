@@ -1,5 +1,8 @@
 input{
-    zoom:600%;
+    position:absolute;
+    left:550px;
+    transform:scale(4);
+    width:240px;
 }
 
 p{
