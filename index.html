@@ -2,34 +2,43 @@
 
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">    <!--html要素のスタイル設定-->
   </head>
 
 
   <body>
 
-    <canvas id="canvas1"></canvas>
+    <!--CGを表示するキャンバス-->
+    <canvas id="canvas1"></canvas>  
 
+    <!--スマホのジャイロセンサ使用許可するためのボタン-->
     <button onclick="permission_request();">動作と方向へのアクセス許可</button>
 
     <br>
+
+    <!--オイラー角表示　度数-->
     <p id="text1">alpha-z = 0</p>
     <p id="text2">beta-x = 0</p>
     <p id="text3">gamma-y = 0</p>
 
     <br>
+
+    <!--スマホの動きに対するオブジェクトの動きの大きさの比率-->
     <input type="range" min="50" value="100" max="300" id="slider1">
 
     <br>
   
+    <!--ライブラリ-->
 
+    <!--three.js-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <!--three.js　追加アドオン　glTF形式の３Dデータをインポートする-->
     <script src="https://unpkg.com/three@0.131.1/examples/js/loaders/GLTFLoader.js"></script>
 
+    <!--メインスクリプト-->
     <script src="script.js"></script>
 
     
-
   </body>
 
 </html>

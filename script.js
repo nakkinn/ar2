@@ -1,34 +1,35 @@
+//ジャイロセンサの使用許可がとれているか否か
 let sensoractive = false;
 
-function post_function( result_string ) {
-    if ( result_string === "granted" ) {
-        sensoractive = true;
-    }
-    else if ( result_string === "denied" ) {
-// ユーザが拒否した場合、文字列"denied"が返る
-    }
-}
+
+
+
+
+//動作と方向へのアクセス許可のボタンが押されたとき、ポップを出して許可がおされたらジャイロ機能をオンにする
 function permission_request() {
-    if ( DeviceOrientationEvent
-        && DeviceOrientationEvent.requestPermission
-        && typeof DeviceOrientationEvent.requestPermission === 'function'
-    ) {
-DeviceMotionEvent.requestPermission().then( post_function );
-window.addEventListener( "devicemotion", function(e) {
-            // 何らかの処理
-        }, false );
-    }
-    if ( DeviceOrientationEvent
-        && DeviceOrientationEvent.requestPermission
-        && typeof DeviceOrientationEvent.requestPermission === 'function'
-    ) {
-        DeviceOrientationEvent.requestPermission().then( postf_unction );
-window.addEventListener( "deviceorientation", function(e) {
-            // 何らかの処理
-        }, false );
+
+    // if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
+    //     DeviceMotionEvent.requestPermission().then( post_function );
+    //     window.addEventListener( "devicemotion", function(e){}, false );
+    // }
+
+    if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
+
+        DeviceOrientationEvent.requestPermission().then( post_function );
+        window.addEventListener( "deviceorientation", handleOrientation, false );
+
     }
 }
 
+
+function post_function( result_string ) {
+    //許可が押されたとき
+    if ( result_string === "granted" ) {
+        sensoractive = true;
+    }else if ( result_string === "denied" ) {
+        //拒否を押されたときの処理（なし）
+    }
+}
 
 
 const text1 = document.getElementById('text1');
@@ -41,7 +42,7 @@ const slider1 = document.getElementById('slider1');
 
 let alpha=0, beta=Math.PI/2, gamma=0;
 
-window.addEventListener('deviceorientation', handleOrientation);
+//window.addEventListener('deviceorientation', handleOrientation);
 
 function handleOrientation(event) {
     if(sensoractive){
