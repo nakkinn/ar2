@@ -41,9 +41,9 @@ let alpha, beta, gamma;
 window.addEventListener('deviceorientation', handleOrientation);
 
 function handleOrientation(event) {
-  alpha = event.alpha;
-  beta = event.beta;
-  gamma = event.gamma;
+  alpha = event.alpha/360*2*Math.PI;
+  beta = event.beta/360*2*Math.PI;
+  gamma = event.gamma/360*2*Math.PI;
 }
 
 
@@ -67,3 +67,4 @@ function animate() {
     renderer.render(scene, camera);
 }
 animate();
+
