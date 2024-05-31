@@ -1,18 +1,3 @@
-//ジャイロセンサの使用許可がとれているか否か
-let sensoractive = false;
-
-
-//動作と方向へのアクセス許可のボタンが押されたとき、ポップを出す
-function permission_request() {
-
-    if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
-        DeviceOrientationEvent.requestPermission().then();
-        window.addEventListener( "deviceorientation", handleOrientation, false );
-    }
-}
-
-
-
 //オイラー角を表示するためのp要素
 const text1 = document.getElementById('text1');
 const text2 = document.getElementById('text2');
@@ -23,32 +8,39 @@ const text3 = document.getElementById('text3');
 const slider1 = document.getElementById('slider1');
 
 
+const check1 = document.getElementById('check1');
+
 //オイラー角
 let alpha=0, beta=Math.PI/2, gamma=0;
 
 
-//スマホが
-function handleOrientation(event) {
-    if(sensoractive||true){
+//動作と方向へのアクセス許可のボタンが押されたとき、ポップを出す
+function permission_request() {
 
-        alpha = event.alpha;
-        beta = event.beta;
-        gamma = event.gamma;
-
-        text1.innerHTML = 'alpha-z = ' + Math.round(Number(alpha));
-        text2.innerHTML = 'beta-x = ' + Math.round(Number(beta));
-        text3.innerHTML = 'gamma-y = ' + Math.round(Number(gamma));
-
-        alpha = Number(alpha)/180*Math.PI;
-        beta = Number(beta)/180*Math.PI;
-        gamma = Number(gamma)/180*Math.PI;
-
-        console.log(alpha, beta, gamma);
+    if(DeviceOrientationEvent && DeviceOrientationEvent.requestPermission && typeof DeviceOrientationEvent.requestPermission === 'function'){
+        DeviceOrientationEvent.requestPermission().then();
+        //スマホが傾いたとき handleOrientation を呼び出す
+        window.addEventListener( "deviceorientation", handleOrientation, false );
     }
 }
 
 
+//スマホが傾いたときオイラー角を更新
+function handleOrientation(event) {
 
+    alpha = event.alpha;
+    beta = event.beta;
+    gamma = event.gamma;
+
+    text1.innerHTML = 'alpha-z = ' + Math.round(Number(alpha));
+    text2.innerHTML = 'beta-x = ' + Math.round(Number(beta));
+    text3.innerHTML = 'gamma-y = ' + Math.round(Number(gamma));
+
+    alpha = Number(alpha)/180*Math.PI;
+    beta = Number(beta)/180*Math.PI;
+    gamma = Number(gamma)/180*Math.PI;
+    
+}
 
 
 
@@ -73,8 +65,8 @@ renderer.setSize(Math.min(width,height), Math.min(width,height));
 
 let monkey = new THREE.Mesh();
 
-const loader2 = new THREE.GLTFLoader();
-loader2.load('redmonkey.glb', function(object){
+const loader = new THREE.GLTFLoader();
+loader.load('redmonkey.glb', function(object){
     monkey = object.scene;
     scene.add(monkey);
 
@@ -98,23 +90,27 @@ scene.add(lighta);
 
 
 
-
 // アニメーションループの作成
 function animate() {
 
     requestAnimationFrame(animate);
 
     let v1 = new THREE.Vector3(0, 3, 0);
-    let el = new THREE.Euler(beta, alpha, -gamma, 'YXZ');
-    v1.applyEuler(el);
+    let v2 = new THREE.Vector3(0, 3, -0.02);
 
+    let el = new THREE.Euler(beta, alpha, -gamma, 'YXZ');
+
+    v1.applyEuler(el);
+    v2.applyEuler(el);
 
 
     let theta1, phi1;
+    let theta2, phi2;
 
     theta1 = Math.atan2(v1.y, Math.sqrt(v1.x**2 + v1.z**2));
     phi1 = Math.atan2(v1.z, v1.x) - Math.PI/2;
-
+    theta2 = Math.atan2(v2.y, Math.sqrt(v2.x**2 + v2.z**2));
+    phi2 = Math.atan2(v2.z, v2.x) - Math.PI/2;
     
 
     let multi = Number(slider1.value)/100;  //角度倍率
@@ -128,10 +124,24 @@ function animate() {
     camera.position.z = 2.6 * Math.cos(theta1*multi) * Math.sin(phi1*multi+Math.PI/2);
 
     camera.lookAt(0, 0, 0);
+
+
+    let cux, cuy, cuz;
+    cux = 3 * Math.cos(theta2*multi) * Math.cos(phi2*multi+Math.PI/2);
+    cuy = 3 * Math.sin(theta2*multi);
+    cuz = 3 * Math.cos(theta2*multi) * Math.sin(phi2*multi+Math.PI/2);
+
+
+    if(check1.checked){
+        camera.up.x = cux - camera.position.x;
+        camera.up.y = cuy - camera.position.y;
+        camera.up.z = cuz - camera.position.z;
+    }
+
     
     renderer.render(scene, camera);
-}
 
+}
 
 animate();
 

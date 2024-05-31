@@ -11,11 +11,6 @@
     <!--CGを表示するキャンバス-->
     <canvas id="canvas1"></canvas>  
 
-    <!--スマホのジャイロセンサ使用許可するためのボタン-->
-    <button onclick="permission_request();">動作と方向へのアクセス許可</button>
-
-    <br>
-
     <!--オイラー角表示　度数-->
     <p id="text1">alpha-z = 0</p>
     <p id="text2">beta-x = 0</p>
@@ -23,10 +18,20 @@
 
     <br>
 
-    <!--スマホの動きに対するオブジェクトの動きの大きさの比率-->
-    <input type="range" min="50" value="100" max="300" id="slider1">
+    <!--スマホのジャイロセンサ使用許可するためのボタン-->
+    <button onclick="permission_request();">動作と方向へのアクセス許可</button>
 
     <br>
+
+    <!--スマホの動きに対するオブジェクトの動きの大きさの比率-->
+    <input type="range" min="50" value="100" max="300" id="slider1" style="margin:60px 0px 0px 0px">
+
+    <br>
+
+    <div style="margin:100px 20px 30px 20px">
+      <input type="checkbox" id="check1">
+      <label for="chekc1">　カメラの上方向ベクトルを指定</label>
+    </div>
   
     <!--ライブラリ-->
 

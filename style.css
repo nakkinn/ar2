@@ -1,16 +1,20 @@
 /*スマホ用に拡大*/
 
-input{
+#slider1{
     position:absolute;
-    left:330px;
-    transform:scale(4);
+    left:210px;
+    transform:scale(3);
     width:200px;
 }
 
 p{
-    font-size:60px;
+    font-size:40px;
 }
 
 button{
-    zoom:400%;
+    zoom:300%;
+}
+
+#check1{
+    transform:scale(3);
 }
