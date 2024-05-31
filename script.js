@@ -125,9 +125,9 @@ function animate() {
 
 
     let cux, cuy, cuz;
-    cux = 3 * Math.cos(theta2*multi) * Math.cos(phi2*multi+Math.PI/2);
-    cuy = 3 * Math.sin(theta2*multi);
-    cuz = 3 * Math.cos(theta2*multi) * Math.sin(phi2*multi+Math.PI/2);
+    cux = 2.6 * Math.cos(theta2*multi) * Math.cos(phi2*multi+Math.PI/2);
+    cuy = 2.6 * Math.sin(theta2*multi);
+    cuz = 2.6 * Math.cos(theta2*multi) * Math.sin(phi2*multi+Math.PI/2);
 
 
     if(check1.checked){
