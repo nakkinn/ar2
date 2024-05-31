@@ -96,7 +96,7 @@ function animate() {
     requestAnimationFrame(animate);
 
     let v1 = new THREE.Vector3(0, 3, 0);
-    let v2 = new THREE.Vector3(0, 3, -0.02);
+    let v2 = new THREE.Vector3(0, 3, -0.1);
 
     let el = new THREE.Euler(beta, alpha, -gamma, 'YXZ');
 
@@ -115,9 +115,7 @@ function animate() {
 
     let multi = Number(slider1.value)/100;  //角度倍率
 
-    camera.position.x = v1.x;
-    camera.position.y = v1.y;
-    camera.position.z = v1.z;
+    
 
     camera.position.x = 2.6 * Math.cos(theta1*multi) * Math.cos(phi1*multi+Math.PI/2);
     camera.position.y = 2.6 * Math.sin(theta1*multi);
@@ -133,6 +131,11 @@ function animate() {
 
 
     if(check1.checked){
+        
+        camera.position.x = v1.x;
+        camera.position.y = v1.y;
+        camera.position.z = v1.z;
+
         camera.up.x = cux - camera.position.x;
         camera.up.y = cuy - camera.position.y;
         camera.up.z = cuz - camera.position.z;
