@@ -132,13 +132,19 @@ function animate() {
 
     if(check1.checked){
 
-        // camera.position.x = v1.x;
-        // camera.position.y = v1.y;
-        // camera.position.z = v1.z;
+        camera.position.x = v1.x;
+        camera.position.y = v1.y;
+        camera.position.z = v1.z;
 
         camera.up.x = cux - camera.position.x;
         camera.up.y = cuy - camera.position.y;
         camera.up.z = cuz - camera.position.z;
+    }else{
+
+        camera.up.x = 0;
+        camera.up.y = 1;
+        camera.up.z = 0;
+
     }
 
     
