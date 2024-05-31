@@ -98,7 +98,7 @@ function animate() {
     let cdist = 2.6
 
     let v1 = new THREE.Vector3(0, cdist, 0);
-    let v2 = new THREE.Vector3(0, cdist, -0.1);
+    let v2 = new THREE.Vector3(0, cdist, -0.01);
 
     let el = new THREE.Euler(beta, alpha, -gamma, 'YXZ');
 
