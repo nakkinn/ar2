@@ -95,8 +95,10 @@ function animate() {
 
     requestAnimationFrame(animate);
 
-    let v1 = new THREE.Vector3(0, 3, 0);
-    let v2 = new THREE.Vector3(0, 3, -0.1);
+    let cdist = 2.6
+
+    let v1 = new THREE.Vector3(0, cdist, 0);
+    let v2 = new THREE.Vector3(0, cdist, -0.1);
 
     let el = new THREE.Euler(beta, alpha, -gamma, 'YXZ');
 
@@ -117,17 +119,17 @@ function animate() {
 
     
 
-    camera.position.x = 2.6 * Math.cos(theta1*multi) * Math.cos(phi1*multi+Math.PI/2);
-    camera.position.y = 2.6 * Math.sin(theta1*multi);
-    camera.position.z = 2.6 * Math.cos(theta1*multi) * Math.sin(phi1*multi+Math.PI/2);
+    camera.position.x = cdist * Math.cos(theta1*multi) * Math.cos(phi1*multi+Math.PI/2);
+    camera.position.y = cdist * Math.sin(theta1*multi);
+    camera.position.z = cdist * Math.cos(theta1*multi) * Math.sin(phi1*multi+Math.PI/2);
 
     camera.lookAt(0, 0, 0);
 
 
     let cux, cuy, cuz;
-    cux = 2.6 * Math.cos(theta2*multi) * Math.cos(phi2*multi+Math.PI/2);
-    cuy = 2.6 * Math.sin(theta2*multi);
-    cuz = 2.6 * Math.cos(theta2*multi) * Math.sin(phi2*multi+Math.PI/2);
+    cux = cdist * Math.cos(theta2*multi) * Math.cos(phi2*multi+Math.PI/2);
+    cuy = cdist * Math.sin(theta2*multi);
+    cuz = cdist * Math.cos(theta2*multi) * Math.sin(phi2*multi+Math.PI/2);
 
 
     if(check1.checked){
@@ -139,6 +141,7 @@ function animate() {
         camera.up.x = cux - camera.position.x;
         camera.up.y = cuy - camera.position.y;
         camera.up.z = cuz - camera.position.z;
+
     }else{
 
         camera.up.x = 0;
