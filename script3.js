@@ -28,9 +28,9 @@ function handleTouchMove(event){
     mess = 'move';
 
     if(event.touches.length==2){
-        mx1 = touches[0].clientX;
-        my1 = touches[0].clientX;
-        mx2 = touches[1].clientY;
-        my2 = touches[1].clientY;
+        mx1 = event.touches[0].clientX;
+        my1 = event.touches[0].clientX;
+        mx2 = event.touches[1].clientY;
+        my2 = event.touches[1].clientY;
     }
 }
