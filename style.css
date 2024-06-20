@@ -53,3 +53,10 @@ cnavas{
     width:33%;
     font-size:40px;
 }
+
+
+
+
+input[type="range"]::-webkit-slider-thumb {
+    box-shadow: none; /* 影を無効化 */
+}
