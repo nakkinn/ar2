@@ -13,7 +13,7 @@ cnavas{
 
 #slider1{
     position:absolute;
-    bottom:25%;
+    bottom:23%;
     left:35%;
     width:27%;
     transform:scale(3);
@@ -21,7 +21,7 @@ cnavas{
 
 #slider2{
     position:absolute;
-    bottom:15%;
+    bottom:14%;
     left:35%;
     width:27%;
     transform:scale(3);
@@ -50,6 +50,6 @@ cnavas{
     position:absolute;
     top:5%;
     left:5%;
-    width:30%;
-    font-size:38px;
+    width:33%;
+    font-size:40px;
 }

@@ -35,6 +35,10 @@ const slider1 = document.getElementById('slider1');
 const slider2 = document.getElementById('slider2');
 const slider3 = document.getElementById('slider3');
 
+slider1.style.touchAction = 'none';
+slider2.style.touchAction = 'none';
+slider3.style.touchAction = 'none';;
+
 
 slider1.addEventListener('input',(event)=>{
     rotate_angle = Math.PI/2/100*Number(event.target.value);
