@@ -291,7 +291,9 @@ function animate(){
 
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
-    if(mouseIsPressed && !inputtouch)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    if(mouseIsPressed)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    if(inputtouch)  angularvelocity.set(0,0,0);
+    
     let axis = angularvelocity.clone().normalize();
     let rad = angularvelocity.length()*0.005;
 
