@@ -260,8 +260,7 @@ function handleTouchMove(event){
             d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
             d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
 
-            let v1n = camera1.position.clone().normalize();
-            let v1l = camera1.position.length();
+            let v1l = camera1.zoom;
 
             v1l = Math.min(Math.max(v1l +(d1-d2)*0.001, 0.1),3);
             
