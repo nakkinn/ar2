@@ -7,6 +7,16 @@ const cube_edge = [[0,1],[0,3],[0,4],[1,2],[1,5],[2,3],[2,6],[3,7],[4,5],[4,7],[
 const ico_vts = [[3.23607, 2., 0.], [3.23607, -2., 0.], [-3.23607, -2., 0.], [-3.23607, 2., 0.], [0., 3.23607, 2.], [0., 3.23607, -2.], [0., -3.23607, -2.], [0., -3.23607, 2.], [2., 0., 3.23607], [-2., 0., 3.23607], [-2., 0., -3.23607], [2., 0., -3.23607]];
 const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],[2,6],[2,7],[2,9],[2,10],[3,4],[3,5],[3,9],[3,10],[4,5],[4,8],[4,9],[5,10],[5,11],[6,7],[6,10],[6,11],[7,8],[7,9],[8,9],[10,11]]
 
+let vts = [];
+let edge = [];
+
+vts = new Array(cube_vts.length);
+for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+edge = new Array(cube_edge.length);
+for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+
+console.log(vts);
+console.log(edge);
 
 
 let inputtouch = false;
@@ -54,6 +64,29 @@ slider1.addEventListener('pointerup',()=>{inputtouch = false;});
 slider2.addEventListener('pointerup',()=>{inputtouch = false;});
 slider3.addEventListener('pointerup',()=>{inputtouch = false;});
 
+
+const select1 = document.getElementById('select1');
+select1.addEventListener('change',(event)=>{
+    if(event.target.value=='option1'){
+        vts = new Array(cube_vts.length);
+        for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+        edge = new Array(cube_edge.length);
+        for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+        disposeGroup(meshgroup);
+        scene1.remove(meshgroup);
+        main();
+    }else{
+        vts = new Array(ico_vts.length);
+        for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+        edge = new Array(ico_edge.length);
+        for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
+        disposeGroup(meshgroup);
+        scene1.remove(meshgroup);
+        main();
+    }
+});
+
+
 let rotate_angle = Math.PI/2/100*Number(slider1.value);
 let tube_thick = 0.15/100*Number(slider2.value);
 let tube_length = Number(slider3.value)/100;
@@ -78,6 +111,8 @@ const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/1
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,10);  //カメラ初期位置
 
+camera1.zoom = 1.5;
+camera1.updateProjectionMatrix();
 
 
 //画面サイズが変わったとき
@@ -165,18 +200,17 @@ function main(){
 
     meshgroup = new THREE.Group();
 
-    //disposeGroup(meshgroup);
-    //scene1.remove(meshgroup);
+    console.log(edge.length);
 
-    for(let i=0; i<ico_edge.length; i++){
+    for(let i=0; i<edge.length; i++){
 
         let x1, y1, z1, x2, y2, z2;
-        x1 = ico_vts[ico_edge[i][0]][0];
-        y1 = ico_vts[ico_edge[i][0]][1];
-        z1 = ico_vts[ico_edge[i][0]][2];
-        x2 = ico_vts[ico_edge[i][1]][0];
-        y2 = ico_vts[ico_edge[i][1]][1];
-        z2 = ico_vts[ico_edge[i][1]][2];
+        x1 = vts[edge[i][0]][0];
+        y1 = vts[edge[i][0]][1];
+        z1 = vts[edge[i][0]][2];
+        x2 = vts[edge[i][1]][0];
+        y2 = vts[edge[i][1]][1];
+        z2 = vts[edge[i][1]][2];
 
         let v1a = new THREE.Vector3(x1, y1, z1);
         let v2a = new THREE.Vector3(x2, y2, z2);
@@ -338,3 +372,15 @@ function disposeGroup(group) {
         }
     });
 }
+
+
+
+// マウスホイールイベントのリスナーを追加
+document.addEventListener('wheel', function(event) {
+    if (event.deltaY > 0) {
+        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.5),3)
+    } else {
+        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.5),3);
+    }
+    camera1.updateProjectionMatrix();
+});
