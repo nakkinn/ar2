@@ -56,7 +56,3 @@ cnavas{
 
 
 
-
-input[type="range"]::-webkit-slider-thumb {
-    box-shadow: none; /* 影を無効化 */
-}
