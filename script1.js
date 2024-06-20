@@ -41,7 +41,7 @@ slider3.style.touchAction = 'none';;
 
 
 slider1.addEventListener('input',(event)=>{
-    rotate_angle = Math.PI/2/100*Number(event.target.value);
+    rotate_angle = -Math.PI/2/100*Number(event.target.value);
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
@@ -79,6 +79,7 @@ select1.addEventListener('change',(event)=>{
         disposeGroup(meshgroup);
         scene1.remove(meshgroup);
         main();
+        select2.style.visibility = 'hidden';
     }else{
         vts = new Array(ico_vts.length);
         for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
@@ -87,11 +88,19 @@ select1.addEventListener('change',(event)=>{
         disposeGroup(meshgroup);
         scene1.remove(meshgroup);
         main();
+        select2.style.visibility = 'visible';
     }
 });
 
+const select2 = document.getElementById('select2');
+select2.addEventListener('change',()=>{
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+});
 
-let rotate_angle = Math.PI/2/100*Number(slider1.value);
+
+let rotate_angle = -Math.PI/2/100*Number(slider1.value);
 let tube_thick = 0.15/100*Number(slider2.value);
 let tube_length = Number(slider3.value)/100;
 
@@ -173,23 +182,31 @@ tube.rotation.set(1,4,2);
 // scene1.add(tube);
 
 
-const tube_material = new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide});
+let tube_material = [
+    new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
+]
 
 let meshgroup;
 
 
 
-function addtube(v1, v2, r1){
+function addtube(v1, v2, r1, ci){
+
     let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
     let tube_geomtry = new THREE.TubeGeometry(tube_path, 8, r1, 16, false);
-    let tube = new THREE.Mesh(tube_geomtry, tube_material);
+    let tube = new THREE.Mesh(tube_geomtry, tube_material[ci]);
     meshgroup.add(tube); 
 
 
     let sphere_geometry, sphere1, sphere2;
 
     sphere_geometry = new THREE.SphereGeometry(r1, 16, 8);
-    sphere1 = new THREE.Mesh(sphere_geometry, tube_material);
+    sphere1 = new THREE.Mesh(sphere_geometry, tube_material[ci]);
     sphere1.position.copy(v1);
     sphere2 = sphere1.clone();
     sphere2.position.copy(v2);
@@ -233,8 +250,28 @@ function main(){
 
         v1c = new THREE.Vector3((-tube_length+1)*va.x+tube_length*v1b.x, (-tube_length+1)*va.y+tube_length*v1b.y, (-tube_length+1)*va.z+tube_length*v1b.z);
         v2c = new THREE.Vector3((-tube_length+1)*va.x+tube_length*v2b.x, (-tube_length+1)*va.y+tube_length*v2b.y, (-tube_length+1)*va.z+tube_length*v2b.z);
+    
+        let cl=0;
 
-        addtube(v1c, v2c, tube_thick);
+        if(select1.value=='option1' || select2.value=='option1'){
+            cl = 4;
+        }else if(select2.value=='option2'){
+            cl = 0;
+            if(i==0 || i==9 || i==18 || i==23 || i==28 || i==29)  cl=1;
+            if(i==1 || i==10 || i==21 || i==26 || i==8 || i==16)  cl=2;
+            if(i==2 || i==11 || i==7 || i==17 || i==20 || i==25)  cl=3;
+            if(i==3 || i==13 || i==22 || i==27 || i==5 || i==14)  cl=4;
+        }else{
+            cl = 5;
+            if(i==0 || i==22 || i==17 || i==12 || i==26)    cl=0;
+            if(i==1 || i==15 || i==13 || i==23 || i==7)    cl=1;
+            if(i==2 || i==29 || i==10 || i==27 || i==19)    cl=2;
+            if(i==3 || i==8 || i==24 || i==9 || i==20)    cl=3;
+            if(i==4 || i==5 || i==11 || i==16 || i==18)    cl=4;
+        }
+        
+
+        addtube(v1c, v2c, tube_thick, cl);
     }
 
     scene1.add(meshgroup);

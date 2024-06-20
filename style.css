@@ -54,5 +54,15 @@ cnavas{
     font-size:40px;
 }
 
+#select2{
+    position:absolute;
+    top:5%;
+    right:5%;
+    width:33%;
+    font-size:40px;
+    visibility: hidden;
+}
+
+
 
 
