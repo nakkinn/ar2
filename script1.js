@@ -76,7 +76,9 @@ renderer1.setClearColor(0xffffff);   //背景色
 // カメラ
 const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
-camera1.position.set(0,0,8);  //カメラ初期位置
+camera1.position.set(0,0,10);  //カメラ初期位置
+
+
 
 //画面サイズが変わったとき
 window.addEventListener('resize',()=>{
@@ -261,8 +263,10 @@ function handleTouchMove(event){
             let v1n = camera1.position.clone().normalize();
             let v1l = camera1.position.length();
 
-            v1l = Math.max(v1l +(d1-d2)*0.1, 1);
-            camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
+            v1l = Math.min(Math.max(v1l +(d1-d2)*0.001, 0.1),3);
+            
+            camera1.zoom = v1l;
+            camera1.updateProjectionMatrix();
 
             mpx1 = mx1;
             mpy1 = my1;
