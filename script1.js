@@ -239,7 +239,7 @@ function handleTouchMove(event){
 
     if(event.touches.length==2){
 
-        twofinger = true;
+        inputtouch = true;
 
         if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
 
@@ -282,7 +282,7 @@ function handleTouchEnd(event){
     mpy1 = -1;
     mpx2 = -1;
     mpy2 = -1;
-    twofinger = false;
+    inputtouch = false;
 }
 
 
