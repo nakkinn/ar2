@@ -4,22 +4,25 @@
     <title>公開講座2024 ver1.0</title>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width"> -->
   </head>
 
   <body>
 
 
     <canvas id="canvas1"></canvas>
-
-    <script src="p5.js"></script>
     
+    <input type="range" id="slider1" min="0" max="100" value="0">
+    <input type="range" id="slider2" min="100" max="400" value="100">
+    <input type="range" id="slider3" min="50" max="250" value="100">
+
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
     <!--three.js追加アドオン　マウスドラッグによる視点操作-->
     <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
 
     <!--メインのプログラム-->
-    <script src='script3.js'></script>
+    <script src='script1.js'></script>
 
   </body>
 
