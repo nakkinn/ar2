@@ -262,7 +262,7 @@ function handleTouchMove(event){
 
             let v1l = camera1.zoom;
 
-            v1l = Math.min(Math.max(v1l +(d2-d1)*0.001, 0.5),3);
+            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.5),3);
             
             camera1.zoom = v1l;
             camera1.updateProjectionMatrix();
