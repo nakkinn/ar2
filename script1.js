@@ -122,6 +122,7 @@ renderer1.setClearColor(0xeeeeee);   //背景色
 const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,10);  //カメラ初期位置
+console.log(camera1);
 
 camera1.zoom = 1.5;
 camera1.updateProjectionMatrix();
@@ -158,6 +159,7 @@ scene1.add(light1);
 
 
 let dummymesh = new THREE.Mesh();
+dummymesh.rotation.set(0.25, 0.4, 0);
 
 
 // パス（スプライン）を作成
