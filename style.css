@@ -84,6 +84,10 @@ cnavas{
 }
 
 
+input[type="range"] {
+    -webkit-appearance: none; /* Remove default styling */
+    background: #dddddd; 
+}
 
 input[type="range"]::-webkit-slider-runnable-track {
     width: 50%; /* Adjust track width to 80% of the slider */
