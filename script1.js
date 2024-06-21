@@ -36,9 +36,11 @@ slider1.style.touchAction = 'none';
 slider2.style.touchAction = 'none';
 slider3.style.touchAction = 'none';;
 
+console.log(slider1.style);
 
 slider1.addEventListener('input',(event)=>{
-    rotate_angle = -Math.PI/2/100*Number(event.target.value);
+    rotate_angle = -Math.PI/500*Number(event.target.value);
+    console.log(rotate_angle);
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
@@ -110,8 +112,8 @@ const renderer1 = new THREE.WebGLRenderer({
     canvas:canvas1,   //描画するキャンバスをID指定
     antialias: true
 });
-renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスサイズ
-renderer1.setClearColor(0xffffff);   //背景色
+renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
+renderer1.setClearColor(0xeeeeee);   //背景色
 
 
 
@@ -127,8 +129,8 @@ camera1.updateProjectionMatrix();
 
 //画面サイズが変わったとき
 window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight);
-    camera1.aspect = window.innerWidth / window.innerHeight;
+    renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
+    camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
 
     camera1.left = -canvas1.width / 150;
     camera1.right = canvas1.width / 150;
@@ -278,11 +280,11 @@ function main(){
 
 //マウスイベント
 let mouseIsPressed = false;
-document.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 
 let mousemovementX=0, mousemovementY=0;
-document.addEventListener('pointermove',(event)=>{
+canvas1.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 });
@@ -295,8 +297,8 @@ let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1;
 let twofinger = false;
 
 //document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
-document.addEventListener('touchend', handleTouchEnd, false);
+canvas1.addEventListener('touchmove', handleTouchMove, false);
+canvas1.addEventListener('touchend', handleTouchEnd, false);
 
 function handleTouchStart(event){
     if(event.touchs.length==2){
@@ -344,6 +346,17 @@ function handleTouchMove(event){
             mpx2 = mx2;
             mpy2 = my2;
 
+        }
+
+    }else if(event.touches.length==1){
+        if(mpx1==-1 || mpy1==-1){
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
+        }else{
+            mousemovementX = event.touches[0].clientX - mpx1;
+            mousemovementY = event.touches[0].clientY - mpy1;
+            mpx1 = event.touches[0].clientX;
+            mpy1 = event.touches[0].clientY;
         }
     }
 }
