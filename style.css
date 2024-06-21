@@ -81,3 +81,12 @@ cnavas{
     z-index:1;
     touch-action:none;
 }
+
+
+.custom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* デフォルトの外観を無効にする */
+    appearance: none; /* デフォルトの外観を無効にする */
+    box-shadow : none;
+    border : none;
+}
+
