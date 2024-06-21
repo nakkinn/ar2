@@ -1,4 +1,6 @@
-
+*{
+    touch-action:none;
+}
 
 html,body{
     margin:0px;
