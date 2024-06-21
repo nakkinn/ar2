@@ -92,3 +92,15 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-runnable-track {
     width: 50%; /* Adjust track width to 80% of the slider */
 }
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Remove default styling */
+    appearance: none;
+    width: 16px; /* Thumb width */
+    height: 16px; /* Thumb height */
+    background: #007aff; /* Customize thumb color */
+    cursor: pointer;
+    border-radius: 50%; /* Make thumb round */
+    box-shadow: none; /* Remove thumb shadow */
+    border: none; /* Remove thumb border */
+}
