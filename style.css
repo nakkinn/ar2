@@ -11,6 +11,7 @@ cnavas{
     user-select: none; 
     -webkit-user-select: none; 
     -moz-user-select: none; 
+    z-index:0;
 }
 
 #slider1{
