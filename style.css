@@ -83,6 +83,12 @@ cnavas{
 }
 
 
+.custom-slider {
+    -webkit-appearance: none; /* デフォルトの外観を無効にする */
+    appearance: none; /* デフォルトの外観を無効にする */
+    outline: none; /* フォーカス時のアウトラインを削除 */
+}
+
 .custom-slider::-webkit-slider-thumb {
     -webkit-appearance: none; /* デフォルトの外観を無効にする */
     appearance: none; /* デフォルトの外観を無効にする */
