@@ -22,12 +22,6 @@ cnavas{
     transform:scale(3);
     z-index:1;
 }
-
-/* Track: Chrome, Safari, Opera, Edge Chromium */
-input[type="range"]::-webkit-slider-runnable-track {
-    background: #dddddd;
-    border-radius: 8px;
-}
    
 
 #slider2{
@@ -91,3 +85,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 
 
+.input-range{
+    -webkit-appearance: none;
+    box-shadow: 0 0 3px rgb(255, 161, 255);
+}
