@@ -23,6 +23,13 @@ cnavas{
     z-index:1;
 }
 
+/* Track: Chrome, Safari, Opera, Edge Chromium */
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #dddddd;
+    border-radius: 8px;
+}
+   
+
 #slider2{
     position:absolute;
     bottom:14%;
@@ -83,16 +90,4 @@ cnavas{
 }
 
 
-.custom-slider {
-    -webkit-appearance: none; /* デフォルトの外観を無効にする */
-    appearance: none; /* デフォルトの外観を無効にする */
-    outline: none; /* フォーカス時のアウトラインを削除 */
-}
-
-.custom-slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* デフォルトの外観を無効にする */
-    appearance: none; /* デフォルトの外観を無効にする */
-    box-shadow : none;
-    border : none;
-}
 
