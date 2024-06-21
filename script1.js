@@ -28,6 +28,10 @@ canvas1.addEventListener('contextmenu', (event) => {
 });
 
 
+
+const label1 = document.getElementById('label1');
+
+
 const slider1 = document.getElementById('slider1');
 const slider2 = document.getElementById('slider2');
 const slider3 = document.getElementById('slider3');
@@ -36,14 +40,15 @@ slider1.style.touchAction = 'none';
 slider2.style.touchAction = 'none';
 slider3.style.touchAction = 'none';;
 
-console.log(slider1.style);
 
 slider1.addEventListener('input',(event)=>{
-    rotate_angle = -Math.PI/500*Number(event.target.value);
-    console.log(rotate_angle);
+    rotate_angle = -Math.PI/angle_switch/500*Number(event.target.value);
     disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
+
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
 });
 
 slider2.addEventListener('input',(event)=>{
@@ -66,6 +71,19 @@ slider3.addEventListener('pointerdown',()=>{inputtouch = true;});
 slider1.addEventListener('pointerup',()=>{inputtouch = false;});
 slider2.addEventListener('pointerup',()=>{inputtouch = false;});
 slider3.addEventListener('pointerup',()=>{inputtouch = false;});
+
+
+const check1 = document.getElementById('check1');
+check1.addEventListener('change',(event)=>{
+    if(event.target.checked)    angle_switch = 2;
+    else    angle_switch = 1;
+    rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
+    disposeGroup(meshgroup);
+    scene1.remove(meshgroup);
+    main();
+    let kakudo = -rotate_angle / Math.PI * 180;
+    label1.textContent = Math.round(kakudo) + '度';
+});
 
 
 const select1 = document.getElementById('select1');
@@ -98,8 +116,8 @@ select2.addEventListener('change',()=>{
     main();
 });
 
-
-let rotate_angle = -Math.PI/2/100*Number(slider1.value);
+let angle_switch = 2;
+let rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
 let tube_thick = 0.15/100*Number(slider2.value);
 let tube_length = Number(slider3.value)/100;
 
@@ -122,7 +140,7 @@ renderer1.setClearColor(0xeeeeee);   //背景色
 const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,10);  //カメラ初期位置
-console.log(camera1);
+
 
 camera1.zoom = 1.5;
 camera1.updateProjectionMatrix();
@@ -146,7 +164,8 @@ window.addEventListener('resize',()=>{
 const lighta = new THREE.AmbientLight(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
 
-const light1 = new THREE.DirectionalLight(new THREE.Vector3(1,1,1), 1);
+const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
+light1.position.set(1,1,1).normalize();
 scene1.add(light1);
 
 
@@ -221,8 +240,6 @@ main();
 function main(){
 
     meshgroup = new THREE.Group();
-
-    console.log(edge.length);
 
     for(let i=0; i<edge.length; i++){
 

@@ -22,37 +22,42 @@ cnavas{
 
 #slider1{
     position:absolute;
-    bottom:23%;
-    left:35%;
+    bottom:19%;
+    left:30%;
     width:27%;
     transform:scale(3);
 }
    
-
 #slider2{
     position:absolute;
-    bottom:14%;
-    left:35%;
+    bottom:12%;
+    left:30%;
+    width:27%;
+    transform:scale(3);
+}
+
+#slider3{
+    position:absolute;
+    bottom:5%;
+    left:30%;
     width:27%;
     transform:scale(3);
 }
 
 
-#slider3{
+#label1{
     position:absolute;
-    bottom:5%;
-    left:35%;
-    width:27%;
-    transform:scale(3);
+    bottom:15%;
+    right:4%;
+    font-size:30px;
 }
 
 
 
 #container1{
     position:absolute;
-    top:50px;
-    right:160px;
-    background-color:#ffffff88;
+    bottom:24%;;
+    right:15%;
     transform:scale(2.5);
 }
 
