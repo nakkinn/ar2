@@ -15,9 +15,6 @@ for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
 edge = new Array(cube_edge.length);
 for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
 
-console.log(vts);
-console.log(edge);
-
 
 let inputtouch = false;
 
