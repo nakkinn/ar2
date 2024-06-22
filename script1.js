@@ -113,7 +113,7 @@ const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/1
 camera1.position.set(0,0,20);  //カメラ初期位置
 
 
-camera1.zoom = 1.5;
+camera1.zoom = 2;
 camera1.updateProjectionMatrix();
 
 
@@ -223,21 +223,21 @@ function main(){
         vts4[i][3] = tmpx*Math.sin(angle1) + tmpw*Math.cos(angle1);
     }
 
-    // let angle2 = Math.PI/200*Number(slider2.value);
-    // for(let i=0; i<vts4.length; i++){
-    //     let tmpx = vts4[i][1];
-    //     let tmpw = vts4[i][3];
-    //     vts4[i][1] = tmpx*Math.cos(angle2) - tmpw*Math.sin(angle2);
-    //     vts4[i][3] = tmpx*Math.sin(angle2) + tmpw*Math.cos(angle2);
-    // }
+    let angle2 = Math.PI/200*Number(slider2.value);
+    for(let i=0; i<vts4.length; i++){
+        let tmpx = vts4[i][1];
+        let tmpw = vts4[i][3];
+        vts4[i][1] = tmpx*Math.cos(angle2) - tmpw*Math.sin(angle2);
+        vts4[i][3] = tmpx*Math.sin(angle2) + tmpw*Math.cos(angle2);
+    }
 
-    // let angle3 = Math.PI/200*Number(slider3.value);
-    // for(let i=0; i<vts4.length; i++){
-    //     let tmpx = vts4[i][2];
-    //     let tmpw = vts4[i][3];
-    //     vts4[i][2] = tmpx*Math.cos(angle3) - tmpw*Math.sin(angle3);
-    //     vts4[i][3] = tmpx*Math.sin(angle3) + tmpw*Math.cos(angle3);
-    // }
+    let angle3 = Math.PI/200*Number(slider3.value);
+    for(let i=0; i<vts4.length; i++){
+        let tmpx = vts4[i][2];
+        let tmpw = vts4[i][3];
+        vts4[i][2] = tmpx*Math.cos(angle3) - tmpw*Math.sin(angle3);
+        vts4[i][3] = tmpx*Math.sin(angle3) + tmpw*Math.cos(angle3);
+    }
 
 
     let vts3 = new Array(hypercubevts.length);
