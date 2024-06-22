@@ -63,18 +63,21 @@ slider3.style.touchAction = 'none';;
 
 
 slider1.addEventListener('input',(event)=>{
+    disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
     scene1.add(meshgroup);
 });
 
 slider2.addEventListener('input',(event)=>{
+    disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
     scene1.add(meshgroup);
 });
 
 slider3.addEventListener('input',(event)=>{
+    disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
     scene1.add(meshgroup);
