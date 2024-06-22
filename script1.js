@@ -1,19 +1,33 @@
-const tetra_vts = [[2, 2, 2], [-2, -2, 2], [2, -2, -2], [-2, 2, -2]];
-const tetra_edge = [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+const hypercubevts = [
+    [1,1,1,1],
+    [1,1,1,-1],
+    [1,1,-1,1],
+    [1,1,-1,-1],
+    [1,-1,1,1],
+    [1,-1,1,-1],
+    [1,-1,-1,1],
+    [1,-1,-1,-1],
+    [-1,1,1,1],
+    [-1,1,1,-1],
+    [-1,1,-1,1],
+    [-1,1,-1,-1],
+    [-1,-1,1,1],
+    [-1,-1,1,-1],
+    [-1,-1,-1,1],
+    [-1,-1,-1,-1]
+];
 
-const cube_vts = [[2, 2, 2], [2, -2, 2], [-2, -2, 2], [-2, 2, 2], [2, 2, -2], [2, -2, -2], [-2, -2, -2], [-2, 2, -2]];
-const cube_edge = [[0,1],[0,3],[0,4],[1,2],[1,5],[2,3],[2,6],[3,7],[4,5],[4,7],[5,6],[6,7]];
+const hypercubeedge = [
+    [0,1], [2,3], [4,5], [6,7], [8,9], [10,11], [12,13], [14,15],
+    [0,2], [1,3], [4,6], [5,7], [8,10], [9,11], [12,14], [13,15],
+    [0,4], [1,5], [2,6], [3,7], [8,12], [9,13], [10,14], [11, 15],
+    [0,8], [1,9], [2,10], [3,11], [4,12], [5,13], [6,14], [7,15],
 
-const ico_vts = [[3.23607, 2., 0.], [3.23607, -2., 0.], [-3.23607, -2., 0.], [-3.23607, 2., 0.], [0., 3.23607, 2.], [0., 3.23607, -2.], [0., -3.23607, -2.], [0., -3.23607, 2.], [2., 0., 3.23607], [-2., 0., 3.23607], [-2., 0., -3.23607], [2., 0., -3.23607]];
-const ico_edge = [[0,1],[0,4],[0,5],[0,8],[0,11],[1,6],[1,7],[1,8],[1,11],[2,3],[2,6],[2,7],[2,9],[2,10],[3,4],[3,5],[3,9],[3,10],[4,5],[4,8],[4,9],[5,10],[5,11],[6,7],[6,10],[6,11],[7,8],[7,9],[8,9],[10,11]]
+];
 
-let vts = [];
-let edge = [];
 
-vts = new Array(cube_vts.length);
-for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
-edge = new Array(cube_edge.length);
-for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+
+
 
 
 let inputtouch = false;
@@ -42,27 +56,21 @@ slider3.style.touchAction = 'none';;
 
 
 slider1.addEventListener('input',(event)=>{
-    rotate_angle = -Math.PI/angle_switch/500*Number(event.target.value);
-    disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
-
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
+    scene1.add(meshgroup);
 });
 
 slider2.addEventListener('input',(event)=>{
-    tube_thick = 0.15/100*Number(event.target.value);
-    disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
+    scene1.add(meshgroup);
 });
 
 slider3.addEventListener('input',(event)=>{
-    tube_length = Number(event.target.value)/100;
-    disposeGroup(meshgroup);
     scene1.remove(meshgroup);
     main();
+    scene1.add(meshgroup);
 });
 
 slider1.addEventListener('pointerdown',()=>{inputtouch = true;});
@@ -73,48 +81,6 @@ slider2.addEventListener('pointerup',()=>{inputtouch = false;});
 slider3.addEventListener('pointerup',()=>{inputtouch = false;});
 
 
-const check1 = document.getElementById('check1');
-check1.addEventListener('change',(event)=>{
-    if(event.target.checked)    angle_switch = 2;
-    else    angle_switch = 1;
-    rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    let kakudo = -rotate_angle / Math.PI * 180;
-    label1.textContent = Math.round(kakudo) + '度';
-});
-
-
-const select1 = document.getElementById('select1');
-select1.addEventListener('change',(event)=>{
-    if(event.target.value=='option1'){
-        vts = new Array(cube_vts.length);
-        for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
-        edge = new Array(cube_edge.length);
-        for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
-        disposeGroup(meshgroup);
-        scene1.remove(meshgroup);
-        main();
-        select2.style.visibility = 'hidden';
-    }else{
-        vts = new Array(ico_vts.length);
-        for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
-        edge = new Array(ico_edge.length);
-        for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
-        disposeGroup(meshgroup);
-        scene1.remove(meshgroup);
-        main();
-        select2.style.visibility = 'visible';
-    }
-});
-
-const select2 = document.getElementById('select2');
-select2.addEventListener('change',()=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-});
 
 let angle_switch = 2;
 let rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
@@ -139,7 +105,7 @@ renderer1.setClearColor(0xeeeeee);   //背景色
 // カメラ
 const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
 //const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
-camera1.position.set(0,0,10);  //カメラ初期位置
+camera1.position.set(0,0,20);  //カメラ初期位置
 
 
 camera1.zoom = 1.5;
@@ -176,9 +142,11 @@ scene1.add(light1);
 
 //オブジェクト
 
-
 let dummymesh = new THREE.Mesh();
 dummymesh.rotation.set(0.25, 0.4, 0);
+
+
+
 
 
 // パス（スプライン）を作成
@@ -202,20 +170,22 @@ tube.rotation.set(1,4,2);
 // scene1.add(tube);
 
 
-let tube_material = [
-    new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
-]
+
 
 let meshgroup;
 
 
 
 function addtube(v1, v2, r1, ci){
+
+    let tube_material = [
+        new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
+        new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
+        new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
+        new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
+        new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
+        new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
+    ]
 
     let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
     let tube_geomtry = new THREE.TubeGeometry(tube_path, 8, r1, 16, false);
@@ -235,66 +205,76 @@ function addtube(v1, v2, r1, ci){
 }
 
 
-main();
 
 function main(){
 
     meshgroup = new THREE.Group();
 
-    for(let i=0; i<edge.length; i++){
 
-        let x1, y1, z1, x2, y2, z2;
-        x1 = vts[edge[i][0]][0];
-        y1 = vts[edge[i][0]][1];
-        z1 = vts[edge[i][0]][2];
-        x2 = vts[edge[i][1]][0];
-        y2 = vts[edge[i][1]][1];
-        z2 = vts[edge[i][1]][2];
+    let vts4 = new Array(hypercubevts.length);
+    for(let i=0; i<vts4.length; i++)    vts4[i] = hypercubevts[i].concat();
 
-        let v1a = new THREE.Vector3(x1, y1, z1);
-        let v2a = new THREE.Vector3(x2, y2, z2);
+    //4次元回転
 
-        let va = new THREE.Vector3((x1+x2)/2, (y1+y2)/2, (z1+z2)/2);    //辺の重心
+    let angle1 = Math.PI/200*Number(slider1.value);
+    for(let i=0; i<vts4.length; i++){
+        let tmpx = vts4[i][0];
+        let tmpw = vts4[i][3];
+        vts4[i][0] = tmpx*Math.cos(angle1) - tmpw*Math.sin(angle1);
+        vts4[i][3] = tmpx*Math.sin(angle1) + tmpw*Math.cos(angle1);
+    }
 
-        let v1b, v2b, v1c, v2c;
+    // let angle2 = Math.PI/200*Number(slider2.value);
+    // for(let i=0; i<vts4.length; i++){
+    //     let tmpx = vts4[i][1];
+    //     let tmpw = vts4[i][3];
+    //     vts4[i][1] = tmpx*Math.cos(angle2) - tmpw*Math.sin(angle2);
+    //     vts4[i][3] = tmpx*Math.sin(angle2) + tmpw*Math.cos(angle2);
+    // }
 
-        v1b = v1a.clone().sub(va);
-        v1b.applyAxisAngle(va.clone().normalize(), rotate_angle);
-        v1b.add(va);
+    // let angle3 = Math.PI/200*Number(slider3.value);
+    // for(let i=0; i<vts4.length; i++){
+    //     let tmpx = vts4[i][2];
+    //     let tmpw = vts4[i][3];
+    //     vts4[i][2] = tmpx*Math.cos(angle3) - tmpw*Math.sin(angle3);
+    //     vts4[i][3] = tmpx*Math.sin(angle3) + tmpw*Math.cos(angle3);
+    // }
 
-        v2b = v2a.clone().sub(va);
-        v2b.applyAxisAngle(va.clone().normalize(), rotate_angle);
-        v2b.add(va);
 
-        v1c = new THREE.Vector3((-tube_length+1)*va.x+tube_length*v1b.x, (-tube_length+1)*va.y+tube_length*v1b.y, (-tube_length+1)*va.z+tube_length*v1b.z);
-        v2c = new THREE.Vector3((-tube_length+1)*va.x+tube_length*v2b.x, (-tube_length+1)*va.y+tube_length*v2b.y, (-tube_length+1)*va.z+tube_length*v2b.z);
-    
-        let cl=0;
+    let vts3 = new Array(hypercubevts.length);
 
-        if(select1.value=='option1' || select2.value=='option1'){
-            cl = 4;
-        }else if(select2.value=='option2'){
-            cl = 0;
-            if(i==0 || i==9 || i==18 || i==23 || i==28 || i==29)  cl=1;
-            if(i==1 || i==10 || i==21 || i==26 || i==8 || i==16)  cl=2;
-            if(i==2 || i==11 || i==7 || i==17 || i==20 || i==25)  cl=3;
-            if(i==3 || i==13 || i==22 || i==27 || i==5 || i==14)  cl=4;
-        }else{
-            cl = 5;
-            if(i==0 || i==22 || i==17 || i==12 || i==26)    cl=0;
-            if(i==1 || i==15 || i==13 || i==23 || i==7)    cl=1;
-            if(i==2 || i==29 || i==10 || i==27 || i==19)    cl=2;
-            if(i==3 || i==8 || i==24 || i==9 || i==20)    cl=3;
-            if(i==4 || i==5 || i==11 || i==16 || i==18)    cl=4;
-        }
+    for(let i=0; i<hypercubevts.length; i++){
+
+        let x1, y1, z1, w1;
+
+        x1 = vts4[i][0];
+        y1 = vts4[i][1];
+        z1 = vts4[i][2];
+        w1 = vts4[i][3];
+
+        vts3[i] = [x1/(2.01-w1), y1/(2.01-w1), z1/(2.01-w1)]
+    }
+
+
+    for(let i=0; i<hypercubeedge.length; i++){
+        let v1 = new THREE.Vector3(vts3[hypercubeedge[i][0]][0], vts3[hypercubeedge[i][0]][1], vts3[hypercubeedge[i][0]][2]);
+        let v2 = new THREE.Vector3(vts3[hypercubeedge[i][1]][0], vts3[hypercubeedge[i][1]][1], vts3[hypercubeedge[i][1]][2]);
+
+        if(i<4 || (i>=8&&i<12) || (i>=16&&i<20)) addtube(v1, v2, 0.105, 3);
+        else    addtube(v1, v2, 0.1, 4);
         
 
-        addtube(v1c, v2c, tube_thick, cl);
     }
+
 
     scene1.add(meshgroup);
 
 }
+
+
+
+main();
+
 
 
 //マウスイベント
@@ -355,7 +335,7 @@ function handleTouchMove(event){
 
             let v1l = camera1.zoom;
 
-            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.5),3);
+            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.3),3);
             
             camera1.zoom = v1l;
             camera1.updateProjectionMatrix();
@@ -409,11 +389,6 @@ function animate(){
     
     meshgroup.rotation.copy(dummymesh.rotation);
 
-    // scene1.traverse((object)=>{
-    //     if(object.isMesh){
-    //         object.rotation.copy(dummymesh.rotation);
-    //     }
-    // });
 
 
     renderer1.render(scene1, camera1);  //レンダリング（CG描画）
@@ -448,9 +423,9 @@ function disposeGroup(group) {
 // マウスホイールイベントのリスナーを追加
 document.addEventListener('wheel', function(event) {
     if (event.deltaY > 0) {
-        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.5),3)
+        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.3),3)
     } else {
-        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.5),3);
+        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.3),3);
     }
     camera1.updateProjectionMatrix();
 });

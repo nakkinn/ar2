@@ -47,9 +47,9 @@ cnavas{
 
 #label1{
     position:absolute;
-    bottom:15%;
+    bottom:14%;
     right:4%;
-    font-size:30px;
+    font-size:34px;
 }
 
 
@@ -64,7 +64,7 @@ cnavas{
 #select1{
     position:absolute;
     top:3%;
-    left:5%;
+    left:17%;
     width:33%;
     font-size:40px;
 }
@@ -73,9 +73,16 @@ cnavas{
     position:absolute;
     top:3%;
     right:5%;
-    width:33%;
+    width:25%;
     font-size:40px;
     visibility: hidden;
+}
+
+#link1{
+    position:absolute;
+    top:3%;
+    left:3%;
+    font-size:30px;
 }
 
 
