@@ -26,7 +26,14 @@ const hypercubeedge = [
 ];
 
 
-
+const tube_material = [
+    new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
+    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
+];
 
 
 
@@ -73,12 +80,7 @@ slider3.addEventListener('input',(event)=>{
     scene1.add(meshgroup);
 });
 
-slider1.addEventListener('pointerdown',()=>{inputtouch = true;});
-slider2.addEventListener('pointerdown',()=>{inputtouch = true;});
-slider3.addEventListener('pointerdown',()=>{inputtouch = true;});
-slider1.addEventListener('pointerup',()=>{inputtouch = false;});
-slider2.addEventListener('pointerup',()=>{inputtouch = false;});
-slider3.addEventListener('pointerup',()=>{inputtouch = false;});
+
 
 
 
@@ -178,14 +180,7 @@ let meshgroup;
 
 function addtube(v1, v2, r1, ci){
 
-    let tube_material = [
-        new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
-        new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
-        new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
-        new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
-        new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
-        new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
-    ]
+
 
     let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
     let tube_geomtry = new THREE.TubeGeometry(tube_path, 8, r1, 16, false);
@@ -202,6 +197,7 @@ function addtube(v1, v2, r1, ci){
     sphere2.position.copy(v2);
     meshgroup.add(sphere1);
     meshgroup.add(sphere2);
+
 }
 
 
