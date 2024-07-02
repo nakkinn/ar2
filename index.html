@@ -1,29 +1,47 @@
 <html lang="ja">
 
   <head>
-    <title>parametric ver1.0</title>
+    <title>4次元を経由したメビウスの帯</title>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-
   </head>
 
   <body>
 
-    <!--CGを表示するキャンバス-->
+    <a href="../index.html" id="link1" hidden="true">HOME</a>
+
+    <input type="color" id="colorpicker1" hidden="true">
+    <input type="color" id="colorpicker2" hidden="true">
+    <input type="color" id="colorpicker3" hidden="true">
+
     <canvas id="canvas1"></canvas>
+    
+    <div id="container3">
+      <input type="range" id="slider1" min="0" max="9" value="9">
+    </div>
 
-    <!--改行-->
-    <br>  
+  
 
+    <!-- <div id="container1">
+      <label><input type="checkbox" id="check1" checked="true">曲面を描画</label>
+    </div> -->
+
+    <select id="select1" hidden="true">
+      <option value="option1">曲面なし</option>
+      <option value="option2">曲面全体</option>
+      <option value="option3">標準メビウスの帯</option>
+      <option value="option4">メビウスの帯境界</option>
+    </select>
 
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
+    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
 
-
-    <!--メインソース-->
+    <!--メインのプログラム-->
     <script src="data.js"></script>
+    <script src="data3.js"></script>
     <script src='script1.js'></script>
-
 
   </body>
 
