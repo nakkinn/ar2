@@ -1,31 +1,29 @@
 <html lang="ja">
 
   <head>
-    <title>公開講座2024 ver1.0</title>
+    <title>parametric ver1.0</title>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width"> -->
+
   </head>
 
   <body>
 
-    <a href="../" id="link1">HOME</a>
-
-
+    <!--CGを表示するキャンバス-->
     <canvas id="canvas1"></canvas>
 
+    <!--改行-->
+    <br>  
 
-    <input type="range" id="slider1" min="0" max="200" value="100">
-    <input type="range" id="slider2" min="0" max="200" value="0">
-    <input type="range" id="slider3" min="0" max="200" value="0">
 
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
-    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
-    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
 
-    <!--メインのプログラム-->
+
+    <!--メインソース-->
+    <script src="data.js"></script>
     <script src='script1.js'></script>
+
 
   </body>
 

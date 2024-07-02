@@ -1,96 +1,10 @@
-const hypercubevts = [
-    [1,1,1,1],
-    [1,1,1,-1],
-    [1,1,-1,1],
-    [1,1,-1,-1],
-    [1,-1,1,1],
-    [1,-1,1,-1],
-    [1,-1,-1,1],
-    [1,-1,-1,-1],
-    [-1,1,1,1],
-    [-1,1,1,-1],
-    [-1,1,-1,1],
-    [-1,1,-1,-1],
-    [-1,-1,1,1],
-    [-1,-1,1,-1],
-    [-1,-1,-1,1],
-    [-1,-1,-1,-1]
-];
 
-const hypercubeedge = [
-    [0,1], [2,3], [4,5], [6,7], [8,9], [10,11], [12,13], [14,15],
-    [0,2], [1,3], [4,6], [5,7], [8,10], [9,11], [12,14], [13,15],
-    [0,4], [1,5], [2,6], [3,7], [8,12], [9,13], [10,14], [11, 15],
-    [0,8], [1,9], [2,10], [3,11], [4,12], [5,13], [6,14], [7,15],
-
-];
-
-
-const tube_material = [
-    new THREE.MeshLambertMaterial({ color: 0xff7700, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0xff40cc, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0xf4ff1f, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x77ff00, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide}),
-    new THREE.MeshLambertMaterial({ color: 0x7700ff, side:THREE.DoubleSide})
-];
+//スライダー
+const slider1 = document.getElementById('rangeslider1');
+const slider2 = document.getElementById('rangeslider2');
 
 
 
-let inputtouch = false;
-
-
-const canvas1 = document.getElementById('canvas1');
-canvas1.style.touchAction = 'none';
-
-
-canvas1.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-});
-
-
-
-const label1 = document.getElementById('label1');
-
-
-const slider1 = document.getElementById('slider1');
-const slider2 = document.getElementById('slider2');
-const slider3 = document.getElementById('slider3');
-
-slider1.style.touchAction = 'none';
-slider2.style.touchAction = 'none';
-slider3.style.touchAction = 'none';;
-
-
-slider1.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
-});
-
-slider2.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
-});
-
-slider3.addEventListener('input',(event)=>{
-    disposeGroup(meshgroup);
-    scene1.remove(meshgroup);
-    main();
-    scene1.add(meshgroup);
-});
-
-
-
-
-
-let angle_switch = 2;
-let rotate_angle = -Math.PI/angle_switch/500*Number(slider1.value);
-let tube_thick = 0.15/100*Number(slider2.value);
-let tube_length = Number(slider3.value)/100;
 
 //シーン
 const scene1 = new THREE.Scene();
@@ -98,275 +12,260 @@ const scene1 = new THREE.Scene();
 
 // レンダラー
 const renderer1 = new THREE.WebGLRenderer({
-    canvas:canvas1,   //描画するキャンバスをID指定
-    antialias: true
+    canvas:document.getElementById('canvas1'),   //描画するキャンバスをID指定（htmlファイルで設定したID）
+    antialias: true //輪郭をスムーズにする
 });
-renderer1.setSize(window.innerWidth, window.innerHeight*0.6); //キャンバスサイズ
-renderer1.setClearColor(0xeeeeee);   //背景色
-
+//renderer1.setSize(600, 400);    //キャンバスサイズを数値で指定
+renderer1.setSize(window.innerWidth, window.innerHeight); //キャンバスをウィンドウフルサイズにする
+renderer1.setClearColor(0xeeeeee);   //キャンバスの背景色
 
 
 
 // カメラ
-const camera1 = new THREE.OrthographicCamera(-canvas1.width/150, canvas1.width/150, canvas1.height/150, -canvas1.height/150, 0.1, 100);   //直交投影カメラ
-//const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
-camera1.position.set(0,0,20);  //カメラ初期位置
+const camera1 = new THREE.PerspectiveCamera(60, renderer1.domElement.width / renderer1.domElement.height, 0.1, 500);  //透視投影カメラ
+//const camera1 = new THREE.OrthographicCamera(-renderer1.domElement.width/2/20, renderer1.domElement.width/2/20, renderer1.domElement.height/2/20, -renderer1.domElement.height/2/20, 1, 100);   //直交投影カメラ
+camera1.position.set(0, 0, 15);  //カメラ初期位置
+//camera1.zoom = 1; //カメラの初期ズーム
+//camera1.updateProjectionMatrix(); //ズームの変更を適用
 
-
-camera1.zoom = 2;
-camera1.updateProjectionMatrix();
-
-
-//画面サイズが変わったとき
-window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight*0.6);
-    camera1.aspect = window.innerWidth / (window.innerHeight*0.6);
-
-    camera1.left = -canvas1.width / 150;
-    camera1.right = canvas1.width / 150;
-    camera1.top = canvas1.height / 150;
-    camera1.bottom = -canvas1.height / 150;
-
-    camera1.updateProjectionMatrix();
-});
 
 
 //環境光ライト
-const lighta = new THREE.AmbientLight(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
+const lighta = new THREE.AmbientLight(0xffffff, 0.4);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
-
+//指向性ライト
 const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
-light1.position.set(1,1,1).normalize();
+light1.position.set(1,1,1);
 scene1.add(light1);
-
-
-//マウスドラッグによる視点操作（カメラが動く、ライブラリに備わっている機能を使用）
-//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
 
 
 
 //オブジェクト
 
-let dummymesh = new THREE.Mesh();
-dummymesh.rotation.set(0.25, 0.4, 0);
+let geometry_box = new THREE.BoxGeometry();
+let material_blue = new THREE.MeshLambertMaterial({side:THREE.DoubleSide, color:0x0044ff});
+let material_red = new THREE.MeshLambertMaterial({side:THREE.DoubleSide, color:0xff4400, wireframe:false});
+let mesh_box = new THREE.Mesh(geometry_box, material_blue);
 
 
 
 
+// let vts1 = [];
+// let index1 = [];
+// for(let i=0; i<=32; i++) for(let j=0; j<=32; j++){
+//     vts1.push((i-16), (j-16), (i-16)*(i-16)*0.06);
+    
+// }
 
-// パス（スプライン）を作成
-const path = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, 0, 1),
-    new THREE.Vector3(0, 0, -1),
-]);
+// for(let i=0; i<32; i++) for(let j=0; j<32; j++){
+//     //index1.push(i*33+j, i*33+j+1, (i+1)*33+j);
+//     index1.push(i*33+j, i*33+j+1, (i+1)*33+j, (i+1)*33+j+1, (i+1)*33+j, i*33+j+1);
+// }
 
-// TubeGeometryを作成
-const tubeGeometry = new THREE.TubeGeometry(path, 20, 0.2, 8, true);
+let geometry_custom1 = new THREE.BufferGeometry();
+geometry_custom1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts1), 3));
+geometry_custom1.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
+geometry_custom1.computeVertexNormals();
 
-// マテリアルを作成
-const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true });
+let mesh_custom1 = new THREE.Mesh(geometry_custom1, material_blue);
+mesh_custom1.scale.set(0.5, 0.5, 0.5);
 
-// メッシュを作成
-const tube = new THREE.Mesh(tubeGeometry, material);
-
-tube.position.set(1,0,1);
-tube.rotation.set(1,4,2);
-
-// scene1.add(tube);
-
-
-
-
-let meshgroup;
+//scene1.add(mesh_custom1);
 
 
+let vts2 = [];
+let index2 = [];
 
-function addtube(v1, v2, r1, ci){
+let vts3 = [];
+let index3 = [];
 
-
-
-    let tube_path = new THREE.CatmullRomCurve3([v1, v2]);
-    let tube_geomtry = new THREE.TubeGeometry(tube_path, 8, r1, 16, false);
-    let tube = new THREE.Mesh(tube_geomtry, tube_material[ci]);
-    meshgroup.add(tube); 
+vts3 = vts1.concat();
 
 
-    let sphere_geometry, sphere1, sphere2;
+let cou = 0;
 
-    sphere_geometry = new THREE.SphereGeometry(r1, 16, 8);
-    sphere1 = new THREE.Mesh(sphere_geometry, tube_material[ci]);
-    sphere1.position.copy(v1);
-    sphere2 = sphere1.clone();
-    sphere2.position.copy(v2);
-    meshgroup.add(sphere1);
-    meshgroup.add(sphere2);
+let r1 = 5;
 
-}
+let lista = [];
 
+for(let i=0; i<index1.length; i+=3){
 
+    let x1, x2, x3, y1, y2, y3, z1, z2, z3;
 
-function main(){
+    x1 = vts1[index1[i]*3];
+    y1 = vts1[index1[i]*3+1];
+    z1 = vts1[index1[i]*3+2];
+    x2 = vts1[index1[i+1]*3];
+    y2 = vts1[index1[i+1]*3+1];
+    z2 = vts1[index1[i+1]*3+2];
+    x3 = vts1[index1[i+2]*3];
+    y3 = vts1[index1[i+2]*3+1];
+    z3 = vts1[index1[i+2]*3+2];
 
-    meshgroup = new THREE.Group();
+    
 
+    let flag1 = x1*x1 + y1*y1 + z1*z1 <= r1*r1;
+    let flag2 = x2*x2 + y2*y2 + z2*z2 <= r1*r1;
+    let flag3 = x3*x3 + y3*y3 + z3*z3 <= r1*r1;
 
-    let vts4 = new Array(hypercubevts.length);
-    for(let i=0; i<vts4.length; i++)    vts4[i] = hypercubevts[i].concat();
+    if( (flag1&&!flag2&&!flag3) || (!flag1&&flag2&&flag3) ){
 
-    //4次元回転
+        let ta = f1(x1, y1, z1, x2, y2, z2, r1);
+        let tb = f1(x1, y1, z1, x3, y3, z3, r1);
 
-    let angle1 = Math.PI/200*Number(slider1.value);
-    for(let i=0; i<vts4.length; i++){
-        let tmpx = vts4[i][0];
-        let tmpw = vts4[i][3];
-        vts4[i][0] = tmpx*Math.cos(angle1) - tmpw*Math.sin(angle1);
-        vts4[i][3] = tmpx*Math.sin(angle1) + tmpw*Math.cos(angle1);
-    }
+        // vts2.push(x1, y1, z1);
+        // vts2.push(x1*ta+x2*(1-ta), y1*ta+y2*(1-ta), z1*ta+z2*(1-ta));
+        // vts2.push(x1*tb+x3*(1-tb), y1*tb+y3*(1-tb), z1*tb+z3*(1-tb));
+        // index2.push(cou, cou+1, cou+2);
+        // cou += 3;
 
-    let angle2 = Math.PI/200*Number(slider2.value);
-    for(let i=0; i<vts4.length; i++){
-        let tmpx = vts4[i][1];
-        let tmpw = vts4[i][3];
-        vts4[i][1] = tmpx*Math.cos(angle2) - tmpw*Math.sin(angle2);
-        vts4[i][3] = tmpx*Math.sin(angle2) + tmpw*Math.cos(angle2);
-    }
+        let m1=-1, m2=-1;
 
-    let angle3 = Math.PI/200*Number(slider3.value);
-    for(let i=0; i<vts4.length; i++){
-        let tmpx = vts4[i][2];
-        let tmpw = vts4[i][3];
-        vts4[i][2] = tmpx*Math.cos(angle3) - tmpw*Math.sin(angle3);
-        vts4[i][3] = tmpx*Math.sin(angle3) + tmpw*Math.cos(angle3);
-    }
-
-
-    let vts3 = new Array(hypercubevts.length);
-
-    for(let i=0; i<hypercubevts.length; i++){
-
-        let x1, y1, z1, w1;
-
-        x1 = vts4[i][0];
-        y1 = vts4[i][1];
-        z1 = vts4[i][2];
-        w1 = vts4[i][3];
-
-        vts3[i] = [x1/(2.01-w1), y1/(2.01-w1), z1/(2.01-w1)]
-    }
-
-
-    for(let i=0; i<hypercubeedge.length; i++){
-        let v1 = new THREE.Vector3(vts3[hypercubeedge[i][0]][0], vts3[hypercubeedge[i][0]][1], vts3[hypercubeedge[i][0]][2]);
-        let v2 = new THREE.Vector3(vts3[hypercubeedge[i][1]][0], vts3[hypercubeedge[i][1]][1], vts3[hypercubeedge[i][1]][2]);
-
-        if(i<4 || (i>=8&&i<12) || (i>=16&&i<20)) addtube(v1, v2, 0.105, 3);
-        else    addtube(v1, v2, 0.1, 4);
+        for(let j=0; j<lista.length; j++){
+            if( (lista[j][0]==index1[i]&&lista[j][1]==index1[i+1]) || (lista[j][0]==index1[i+1]&&lista[j][1]==index1[i])){
+                m1 = lista[j][2];
+                console.log('abc')
+            }
+            if( (lista[j][0]==index1[i]&&lista[j][1]==index1[i+2]) || (lista[j][0]==index1[i+2]&&lista[j][1]==index1[i]) ){
+                m2 = lista[j][2];
+            }
+        }
+        if(m1!=-1 || m2!=-1)    console.log('recicle');
+        if(m1==-1){
+            m1 = vts3.length/3;
+            vts3.push(x1*ta+x2*(1-ta), y1*ta+y2*(1-ta), z1*ta+z2*(1-ta));
+            lista.push([index1[i], index1[i+1], m1]);
+        }
+        if(m2==-1){
+            m2 = vts3.length/3;
+            vts3.push(x1*tb+x3*(1-tb), y1*tb+y3*(1-tb), z1*tb+z3*(1-tb));
+            lista.push([index1[i], index1[i+2], m2]);
+        }
         
+        if(flag1)   index3.push(index1[i], m1, m2);
+        else    index3.push(m1, index1[i+1], index1[i+2], m2, m1, index1[i+2]);
+    }
 
+    if( (!flag1&&flag2&&!flag3) || (flag1&&!flag2&&flag3) ){
+
+        let ta = f1(x2, y2, z2, x1, y1, z1, r1);
+        let tb = f1(x2, y2, z2, x3, y3, z3, r1);
+
+        let m1 = -1, m2 = -1;
+
+        for(let j=0; j<lista.length; j++){
+            if( (lista[j][0]==index1[i]&&lista[j][1]==index1[i+1]) || (lista[j][0]==index1[i+1]&&lista[j][1]==index1[i]) ){
+                m1 = lista[j][2];
+            }
+            if( (lista[j][0]==index1[i+1]&&lista[j][1]==index1[i+2]) || (lista[j][0]==index1[i+2]&&lista[j][1]==index1[i+1])){
+                m2 = lista[j][2];
+            }
+        }
+        if(m1!=-1 || m2!=-1)    console.log('recicle');
+        if(m1==-1){
+            m1 = vts3.length/3;
+            vts3.push(x2*ta+x1*(1-ta), y2*ta+y1*(1-ta), z2*ta+z1*(1-ta));
+            lista.push([index1[i], index1[i+1], m1]);
+        }
+        if(m2==-1){
+            m2 = vts3.length/3;
+            vts3.push(x2*tb+x3*(1-tb), y2*tb+y3*(1-tb), z2*tb+z3*(1-tb));
+            lista.push([index1[i+1], index1[i+2], m2]);
+        }
+        
+        if(flag2)   index3.push(m1, index1[i+1], m2);
+        else    index3.push(index1[i], m1, index1[i+2], m1, m2, index1[i+2]);
+    }
+
+    if( (!flag1&&!flag2&&flag3) || (flag1&&flag2&&!flag3) ){
+        let ta = f1(x3, y3, z3, x1, y1, z1, r1);
+        let tb = f1(x3, y3, z3, x2, y2, z2, r1);
+
+        let m1 = -1, m2 = -1;
+
+        for(let j=0; j<lista.length; j++){
+            if( (lista[j][0]==index1[i]&&lista[j][1]==index1[i+2]) || (lista[j][0]==index1[i+2]&&lista[j][1]==index1[i])){
+                m1 = lista[j][2];
+            }
+            if( (lista[j][0]==index1[i+1]&&lista[j][1]==index1[i+2]) || (lista[j][0]==index1[i+2]&&lista[j][1]==index1[i+1])){
+                m2 = lista[j][2];
+            }
+        }
+
+        if(m1==-1){
+            m1 = vts3.length/3;
+            vts3.push(x3*ta+x1*(1-ta), y3*ta+y1*(1-ta), z3*ta+z1*(1-ta));
+            lista.push([index1[i], index1[i+2], m1]);
+        }
+        if(m2==-1){
+            m2 = vts3.length/3;
+            vts3.push(x3*tb+x2*(1-tb), y3*tb+y2*(1-tb), z3*tb+z2*(1-tb));
+            lista.push([index1[i+1], index1[i+2], m2]);
+        }
+        
+        if(flag3)   index3.push(m1, m2, index1[i+2]);
+        else   index3.push(index1[i], index1[i+1], m1, m2, m1, index1[i+1])
     }
 
 
-    scene1.add(meshgroup);
+
+    if(flag1 && flag2 && flag3){
+
+        vts2.push(x1, y1, z1);
+        vts2.push(x2, y2, z2);
+        vts2.push(x3, y3, z3);
+
+        index2.push(cou, cou+1, cou+2);
+        cou += 3;
+
+        index3.push(index1[i], index1[i+1], index1[i+2]);
+    }
 
 }
 
 
+console.log(lista);
 
-main();
 
 
+
+function f1(x1, y1, z1, x2, y2, z2, r1){
+    let t1, t2;
+
+    t1 = (-(x1*x2) + x2**2 - y1*y2 + y2**2 - z1*z2 + z2**2 - Math.sqrt(-4*(- (r1**2) + x2**2 + y2**2 + z2**2)*(x1**2 - 2*x1*x2 + x2**2 + y1**2 - 2*y1*y2 + y2**2 + z1**2 - 2*z1*z2 + z2**2) + 4*(-(x1*x2) + x2**2 - y1*y2 + y2**2 - z1*z2 + z2**2)**2)/2)/
+    (x1**2 - 2*x1*x2 + x2**2 + y1**2 - 2*y1*y2 + y2**2 + z1**2 - 2*z1*z2 + z2**2);
+
+    t2 = (-(x1*x2) + x2**2 - y1*y2 + y2**2 - z1*z2 + z2**2 + Math.sqrt(-4*(- (r1**2) + x2**2 + y2**2 + z2**2)*(x1**2 - 2*x1*x2 + x2**2 + y1**2 - 2*y1*y2 + y2**2 + z1**2 - 2*z1*z2 + z2**2) + 4*(-(x1*x2) + x2**2 - y1*y2 + y2**2 - z1*z2 + z2**2)**2)/2)/
+    (x1**2 - 2*x1*x2 + x2**2 + y1**2 - 2*y1*y2 + y2**2 + z1**2 - 2*z1*z2 + z2**2);
+    
+    if(0<=t1 && t1<=1)  return t1;
+    else    return t2;
+}
+
+
+
+let geometry_custom2 = new THREE.BufferGeometry();
+geometry_custom2.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts3), 3));
+geometry_custom2.setIndex(new THREE.BufferAttribute(new Uint16Array(index3),1));
+geometry_custom2.computeVertexNormals();
+
+let mesh_custom2 = new THREE.Mesh(geometry_custom2, material_red);
+mesh_custom2.scale.set(0.5, 0.5, 0.5);
+
+scene1.add(mesh_custom2);
 
 //マウスイベント
 let mouseIsPressed = false;
-canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+renderer1.domElement.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 
 let mousemovementX=0, mousemovementY=0;
-canvas1.addEventListener('pointermove',(event)=>{
+renderer1.domElement.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 });
 
 let angularvelocity = new THREE.Vector3(0,0,0);
-
-
-//2本指操作
-let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
-let twofinger = false;
-
-//document.addEventListener('touchstart', handleTouchStart, false);
-canvas1.addEventListener('touchmove', handleTouchMove, false);
-canvas1.addEventListener('touchend', handleTouchEnd, false);
-
-function handleTouchStart(event){
-    if(event.touchs.length==2){
-        mpx1 = event.touches[0].clientX;
-        mpy1 = event.touches[0].clientY;
-        mpx2 = event.touches[1].clientX;
-        mpy2 = event.touches[1].clientY;
-    }
-}
-
-function handleTouchMove(event){
-
-    if(event.touches.length==2){
-
-        inputtouch = true;
-
-        if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
-
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-            mpx2 = event.touches[1].clientX;
-            mpy2 = event.touches[1].clientY;
-
-        }else{
-
-            let mx1, my1, mx2, my2;
-            mx1 = event.touches[0].clientX;
-            my1 = event.touches[0].clientY;
-            mx2 = event.touches[1].clientX;
-            my2 = event.touches[1].clientY;
-
-            let d1, d2;
-            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
-
-            let v1l = camera1.zoom;
-
-            v1l = Math.min(Math.max(v1l +(d2-d1)*0.004, 0.3),3);
-            
-            camera1.zoom = v1l;
-            camera1.updateProjectionMatrix();
-
-            mpx1 = mx1;
-            mpy1 = my1;
-            mpx2 = mx2;
-            mpy2 = my2;
-
-        }
-
-    }else if(event.touches.length==1){
-        if(mpx1==-1 || mpy1==-1){
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }else{
-            mousemovementX = event.touches[0].clientX - mpx1;
-            mousemovementY = event.touches[0].clientY - mpy1;
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }
-    }
-}
-
-
-function handleTouchEnd(event){
-    mpx1 = -1;
-    mpy1 = -1;
-    mpx2 = -1;
-    mpy2 = -1;
-    inputtouch = false;
-}
 
 
 //レンダリングを繰り返す
@@ -375,56 +274,186 @@ function animate(){
     requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
 
     if(mouseIsPressed)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
-    if(inputtouch)  angularvelocity.set(0,0,0);
-    
     let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.005;
+    let rad = angularvelocity.length()*0.007;
 
     mousemovementX = 0;
     mousemovementY = 0;
 
-    //meshgroup.rotateOnWorldAxis(axis, rad);
-    dummymesh.rotateOnWorldAxis(axis, rad);
-    
-    meshgroup.rotation.copy(dummymesh.rotation);
+    scene1.traverse((object)=>{
+        if(object.isMesh){
+            object.rotateOnWorldAxis(axis, rad);
+        }
+    });
 
 
+    updateobjects(scene1);  //頂点座標の更新
 
-    renderer1.render(scene1, camera1);  //レンダリング（CG描画）
+    renderer1.render(scene1, camera1);  //レンダリング
 }
 animate();
 
 
 
 
-// グループに含まれる全ての子要素のジオメトリとマテリアルを破棄する関数
-function disposeGroup(group) {
-    group.traverse((child) => {
-        if (child instanceof THREE.Mesh) {
-            // メッシュのジオメトリとマテリアルを破棄
-            if (child.geometry) {
-                child.geometry.dispose();
-            }
-            if (child.material) {
-                // マテリアルがArrayの場合はそれぞれ破棄する
-                if (Array.isArray(child.material)) {
-                    child.material.forEach(mat => mat.dispose());
-                } else {
-                    child.material.dispose();
-                }
-            }
+
+
+
+
+
+// マウスホイールイベント（カメラのズームイン・アウト）
+renderer1.domElement.addEventListener('wheel', function(event){
+    if(event.deltaY > 0){
+        camera1.zoom *= 0.8;
+    }else{
+        camera1.zoom *= 1.25;
+    }
+    camera1.updateProjectionMatrix();
+});
+
+
+
+//自作関数
+
+
+//パラメトリックプロット　チューブ
+function parametrictube(func, urange, radius, option1){
+
+    const defaultoption = {detailu:40, meshcolor:0xffffff, opacity:1, radialsegments:8, scale:1, animation:false};
+    option1 = {...defaultoption, ...option1};
+
+    let umin = urange[0];
+    let umax = urange[1];
+
+    let vts1 = [];
+    for(let i=0; i<=option1.detailu; i++){
+        let u = umin + (umax - umin) / option1.detailu * i;
+        let tmp = func(u);
+        vts1.push(new THREE.Vector3(tmp[0], tmp[1], tmp[2]));
+    }
+
+    let path1 = new THREE.CatmullRomCurve3(vts1);
+    
+    let geometry1 = new THREE.TubeGeometry(path1, option1.detailu, radius, option1.radialsegments, false);
+    
+    let material1;
+    if(option1.opacity==1)    material1 = new THREE.MeshLambertMaterial({side:THREE.DoubleSide, color:option1.meshcolor});
+    else    material1 = new THREE.MeshLambertMaterial({side:THREE.DoubleSide, color:option1.meshcolor, transparent:true, opacity:option1.opacity});
+
+    let mesh1 = new THREE.Mesh(geometry1, material1);
+    mesh1.scale.set(option1.scale, option1.scale, option1.scale);
+
+    mesh1.umin = umin;
+    mesh1.umax = umax;
+    mesh1.detailu = option1.detailu;
+
+    mesh1.radius = radius;
+    mesh1.radialsegments = option1.radialsegments;
+
+    mesh1.vtsfunc = func;
+    mesh1.class = 'myparametrictube';
+    mesh1.animation = option1.animation;
+
+    return mesh1;
+}
+
+
+//パラメトリックプロット　曲面　改良版
+function parametricmesh(func, urange, vrange, option1){
+
+    const defaultoption = {detailu:40, detailv:40, meshcolor:0xffffff, scale:1, opacity:1, animation:false};
+    option1 = {...defaultoption, ...option1};
+
+    let umin = urange[0];
+    let umax = urange[1];
+    let vmin = vrange[0];
+    let vmax = vrange[1];
+
+    let vts1 = [];
+    let index1 = [];
+
+    
+    for(let i=0; i<=option1.detailu; i++)    for(let j=0; j<=option1.detailv; j++){
+    
+        let u = umin + (umax - umin) / option1.detailu * i;
+        let v = vmin + (vmax - vmin) / option1.detailv * j;
+    
+        vts1 = vts1.concat(func(u,v));
+    }
+
+    
+    for(let i=0; i<option1.detailu; i++){
+        for(let j=0; j<option1.detailv; j++){
+            index1.push(i*(option1.detailv+1)+j, i*(option1.detailv+1)+(j+1), (i+1)*(option1.detailv+1)+j, (i+1)*(option1.detailv+1)+(j+1), (i+1)*(option1.detailv+1)+j, i*(option1.detailv+1)+(j+1));
         }
-    });
+    }
+    
+    
+    let geometry1 = new THREE.BufferGeometry();
+    geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts1), 3));
+    geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(index1),1));
+    geometry1.computeVertexNormals();
+    
+    let material1;
+    if(option1.opacity==1)    material1 = new THREE.MeshLambertMaterial({side:THREE.DoubleSide, color:option1.meshcolor});
+    else    material1 = new THREE.MeshLambertMaterial({side:THREE.DoubleSide, color:option1.meshcolor, transparent:true, opacity:option1.opacity});
+
+    let mesh1 = new THREE.Mesh(geometry1, material1);
+    mesh1.scale.set(option1.scale, option1.scale, option1.scale);
+
+    mesh1.umin = umin;
+    mesh1.umax = umax;
+    mesh1.vmin = vmin;
+    mesh1.vmax = vmax;
+
+    mesh1.detailu = option1.detailu;
+    mesh1.detailv = option1.detailv;
+
+    mesh1.vtsfunc = func;
+    mesh1.class = 'myparametricmesh';
+    mesh1.animation = option1.animation;
+
+    return mesh1;
 }
 
 
 
-// マウスホイールイベントのリスナーを追加
-document.addEventListener('wheel', function(event) {
-    if (event.deltaY > 0) {
-        camera1.zoom = Math.min(Math.max(camera1.zoom-0.1, 0.3),3)
-    } else {
-        camera1.zoom = Math.min(Math.max(camera1.zoom+0.1, 0.3),3);
-    }
-    camera1.updateProjectionMatrix();
-});
+function updateobjects(scene){
+
+    scene.traverse((object)=>{
+        if(object.isMesh){
+
+            if(object.class == 'myparametricmesh' && object.animation){
+
+                let list1 = [];
+                for(let i=0; i<=object.detailu; i++)    for(let j=0; j<=object.detailv; j++){
+                    let u = object.umin + (object.umax - object.umin) / object.detailu * i;
+                    let v = object.vmin + (object.vmax - object.vmin) / object.detailv * j;
+                    list1 = list1.concat(object.vtsfunc(u,v));
+                }
+            
+                object.geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(list1),3));
+                object.geometry.computeVertexNormals();
+                object.geometry.attributes.position.needsUpdate = true;
+
+            }
+
+            if(object.class == 'myparametrictube' && object.animation){
+
+                let vts1 = [];
+                for(let i=0; i<=object.detailu; i++){
+                    let u = object.umin + (object.umax - object.umin) / object.detailu * i;
+                    let tmp = object.vtsfunc(u);
+                    vts1.push(new THREE.Vector3(tmp[0], tmp[1], tmp[2]));
+                }
+
+                let path1 = new THREE.CatmullRomCurve3(vts1);
+                object.geometry.dispose();
+                object.geometry = new THREE.TubeGeometry(path1, object.detailu, object.radius, object.radialsegments, false);
+
+            }
+        }
+    });
+
+
+}
