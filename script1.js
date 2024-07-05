@@ -1,21 +1,51 @@
-const slider1 = document.getElementById('slider1');
+//#############################################################
+//グローバル変数
+//#############################################################
 
+let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
+let twofinger = false;
+let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
+
+
+
+//#############################################################
+//three.js関連
+//#############################################################
+
+
+//シーン
+const scene1 = new THREE.Scene();
+
+
+// レンダラー
+const renderer1 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas1'),   //描画するキャンバスをID指定
+    antialias: true //境界のぎざぎざを軽減
+});
+renderer1.setClearColor(0xeeeeee);   //背景色
+
+
+
+
+
+
+const slider1 = document.getElementById('rangeslider1');
 slider1.addEventListener('input',()=>{
     updateobjects(scene1);
 });
 
-
+check1 = document.getElementById('check1');
 
 
 const canvas1 = document.getElementById('canvas1');
 //右クリックメニューを禁止（スマホを長押ししたときに余計なものが開かないようにする）
-canvas1.addEventListener('contextmenu', (event) => {
-    event.preventDefault();
-});
+// canvas1.addEventListener('contextmenu', (event) => {
+//     event.preventDefault();
+// });
 
 
 
-let canvasover = false;
+
 
 document.addEventListener('click', (event)=>{
     if(event.target.tagName.toLowerCase()=='canvas'){
@@ -29,17 +59,8 @@ document.addEventListener('click', (event)=>{
 
 
 
-//シーン
-const scene1 = new THREE.Scene();
 
 
-// レンダラー
-const renderer1 = new THREE.WebGLRenderer({
-    canvas:canvas1,   //描画するキャンバスをID指定
-    antialias: true
-});
-//renderer1.setSize(window.innerWidth, window.innerHeight*0.76); //キャンバスサイズ
-renderer1.setClearColor(0xeeeeee);   //背景色
 
 
 // カメラ
@@ -115,7 +136,7 @@ scene1.add(corecurve1);
 scene1.add(boundarycurve1);
 
 
-const check1 = document.getElementById('check1');
+
 check1.addEventListener('change',()=>{
     if(check1.checked){
         corecurve1.visible = true;
@@ -141,8 +162,7 @@ let angularvelocity = new THREE.Vector3(0,0,0);
 
 
 //2本指操作
-let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
-let twofinger = false;
+
 
 canvas1.addEventListener('touchmove', handleTouchMove, false);
 canvas1.addEventListener('touchend', handleTouchEnd, false);
