@@ -3,8 +3,13 @@
 //#############################################################
 
 let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
-let twofinger = false;
-let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1; 
+let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
+let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
+let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標
+let mousemovementX=0, mousemovementY=0; //マウス移動量
+
+let width1, height1;    //キャンバスサイズ
+let angularvelocity1 = new THREE.Vector3(0,0,0);    //オブジェクトの回転軸　大きさが回転速度に比例する　（初めから回転させることも可能）
 
 
 
@@ -19,87 +24,75 @@ const scene1 = new THREE.Scene();
 
 // レンダラー
 const renderer1 = new THREE.WebGLRenderer({
-    canvas:document.getElementById('canvas1'),   //描画するキャンバスをID指定
-    antialias: true //境界のぎざぎざを軽減
+    canvas: document.getElementById('canvas1'),   //描画するキャンバスをID指定
+    antialias: true //グラフィックのぎざぎざを軽減
 });
 renderer1.setClearColor(0xeeeeee);   //背景色
 
-
-
-
-
-
-const slider1 = document.getElementById('rangeslider1');
-slider1.addEventListener('input',()=>{
-    updateobjects(scene1);
-});
-
-check1 = document.getElementById('check1');
-
-
-const canvas1 = document.getElementById('canvas1');
-//右クリックメニューを禁止（スマホを長押ししたときに余計なものが開かないようにする）
-// canvas1.addEventListener('contextmenu', (event) => {
-//     event.preventDefault();
-// });
-
-
-
-
-
-document.addEventListener('click', (event)=>{
-    if(event.target.tagName.toLowerCase()=='canvas'){
-        canvasover = true;
-        disableScroll();
-    }else{
-        canvasover = false;
-        enableScroll();
-    }
-})
-
-
-
-
-
+width1 = renderer1.domElement.width;    //キャンバスサイズ（カメラ設定に使う）
+height1 = renderer1.domElement.height;
 
 
 // カメラ
-//const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
-const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
+//透視投影
+const camera1 = new THREE.PerspectiveCamera(60, width1 / height1, 0.01, 50);    //最後の2つの引数は描画範囲（最も近い距離、最も遠い距離）
+
+//直交投影
+// const camera1 = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.01, 50);
+// let aspectratio1 = width1 / height1;
+// if(width1 > height1){   //直交投影の描画範囲指定（縦長、横長で場合分け）
+//     camera1.left = -aspectratio1;
+//     camera1.right = aspectratio1;
+//     camera1.top = 1;
+//     camera1.bottom = -1;
+// }else{
+//     camera1.left = -1;
+//     camera1.right = 1;
+//     camera1.top = 1 / aspectratio1;
+//     camera1.bottom = -1 / aspectratio1;
+// }
+
 camera1.position.set(0,0,15);  //カメラ初期位置
-
-
+camera1.zoom = 1;   //カメラズーム量（オブジェクトが画面に表示されない場合は、これを調整すると表示されることがある）
+camera1.updateProjectionMatrix(); //カメラの設定適用
 
 
 //環境光ライト
 const lighta = new THREE.AmbientLight(0xffffff, 0.4);   //第1引数：光の色, 第2引数：光の強さ
 scene1.add(lighta);
 
-
 //指向性ライト
 const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
 light1.position.set(1,1,1);
 scene1.add(light1);
-
 
 const light2 = new THREE.DirectionalLight(0xffffff, 0.1);
 light2.position.set(-1,-1,1);
 scene1.add(light2);
 
 
+//姿勢更新のためのダミーオブジェクト
+let dummymesh = new THREE.Mesh();   //マウスドラッグ時これを回転させて、他のオブジェクトの姿勢をダミーオブジェクトの姿勢と一致させる
+dummymesh.rotation.set(0.3, 0, 0);  //初期姿勢 x-y-z系オイラー角
 
-//オブジェクト
 
-let dummymesh = new THREE.Mesh();
-dummymesh.rotation.set(0.3, 0, 0);
+
+//#############################################################
+//表示するグラフィック　・　パラメータとして使うスライダー
+//#############################################################
+
+
+const slider1 = document.getElementById('rangeslider1');    //スライダー1 Number(slider1.value)でこのスライダーの出力値が数値として取得できる
+slider1.addEventListener('input',()=>{  //スライダーのつまみが動かされた時の処理
+    updateobjects(scene1);  //引数のシーンに含まれる全てのオブジェクトの頂点座標を更新する（自作関数parametricmesh, parametrictubeで作られたものに限る）
+});
 
 
 //メビウスの帯2変数関数
 const mebius_func1 = function(u, v){
-
     let x, y, z;
     let t1 = Number(slider1.value);
-    let v1 = ((1-t1)*v+t1) * 3;
+    let v1 = ((1-t1)*v+t1) * 3; //スライダーを動かすと中央線から裂ける
     
     x = (5 + v1 * Math.cos(u/2)) * Math.cos(u);
     y = (5 + v1 * Math.cos(u/2)) * Math.sin(u);
@@ -108,7 +101,7 @@ const mebius_func1 = function(u, v){
     return [x, y, z];
 }
 
-
+//メビウスの帯　中央線
 const corecurve_func1 = function(u){
     let x, y, z;
     x = 5 * Math.cos(u);
@@ -117,79 +110,105 @@ const corecurve_func1 = function(u){
     return [x, y, z];
 }
 
-
+//メビウスの帯　境界線
 const boundarycurve_func1 = function(u){
     x = (5 + 3  * Math.cos(u/2)) * Math.cos(u);
     y = (5 + 3 * Math.cos(u/2)) * Math.sin(u);
     z = 3 * Math.sin(u/2);
     return [x, y, z];
-
 }
 
-
+//曲面・チューブの生成
 let mebius1 = parametricmesh(mebius_func1, [0, Math.PI*4], [0, 1], {meshcolor:0xd9ee85, detailv:6, detailu:120, animation:true});
 let corecurve1 = parametrictube(corecurve_func1, [0, Math.PI*2], 0.1, {meshcolor:0xff3300});
 let boundarycurve1 = parametrictube(boundarycurve_func1, [0, Math.PI*4], 0.1, {meshcolor:0x0033ff, detailu:120});
+/*
+・parametciemesh
+第1引数：u,vを入力, [x,y,z]を出力とする曲面を表す2変数関数
+第2,3引数：u,vの範囲
+第4引数：オプション（省略可）
+　meshcolor:色, detailu:u曲線の分割数, detailv:v曲線の分割数, scale:スケール, animation:スライダーで動かす場合trueにする, opacity:透明度(0~1)
 
-scene1.add(mebius1);
+・parametrictube
+第1引数：uを入力, [x,y,z]を出力とする曲線を表す1変数関数
+第2引数：uの範囲
+第3引数：チューブの太さ
+第4引数：オプション（省略可）
+　meshcolor:色, detailu:u曲線の分割数, scale:スケール, animation:スライダーで動かす場合trueにする, opacity:透明度(0~1), 
+*/
+
+scene1.add(mebius1);    //シーンに追加
 scene1.add(corecurve1);
 scene1.add(boundarycurve1);
 
 
 
-check1.addEventListener('change',()=>{
-    if(check1.checked){
-        corecurve1.visible = true;
-    }else{
-        corecurve1.visible = false;
+//#############################################################
+//入力や操作に関する処理
+//#############################################################
+
+const check1 = document.getElementById('checkbox1');    //中央線の表示・非表示を切り替えるチェックボックス
+check1.addEventListener('change',()=>{  //チェックボックスの値が切り替わったときの処理
+    if(check1.checked){ //チェックボックスにチェックが入っている場合
+        corecurve1.visible = true;  //中央線チューブを表示する
+    }else{  //チェックボックスにチェックが入っていない場合
+        corecurve1.visible = false; //中央線チューブを非表示にする
     }
 });
 
 
+//キャンバス上で操作しているか否かの切り替え
+document.addEventListener('click', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
+    if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
+        canvasover = true;  //キャンバス操作オン
+        document.body.style.overflow = 'hidden';    //スクロール無効にする
+    }else{   //クリック位置（移動先）がキャンバス要素でないとき
+        canvasover = false;  //キャンバス操作オフ
+        document.body.style.overflow = '';  //スクロール有効にする
+    }
+})
+
+
+//マウスホイールイベント
+document.addEventListener('wheel', function(event) {
+    if(canvasover){ //キャンバス操作モードのときカメラズームを調整
+        if(event.deltaY > 0) camera1.zoom *= 0.8;
+        else camera1.zoom *= 1.25;
+        camera1.updateProjectionMatrix();
+    }
+});
+
 
 //マウスイベント
-let mouseIsPressed = false;
-canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
-
-let mousemovementX=0, mousemovementY=0;
-canvas1.addEventListener('pointermove',(event)=>{
+//マウスプレス・リリース時にmouseIsPressedを切り替え
+renderer1.domElement.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+//マウス移動量の更新
+renderer1.domElement.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 });
 
-let angularvelocity = new THREE.Vector3(0,0,0);
 
+//タッチイベント
+renderer1.domElement.addEventListener('touchmove', handleTouchMove, false);
+renderer1.domElement.addEventListener('touchend', handleTouchEnd, false);
 
-//2本指操作
-
-
-canvas1.addEventListener('touchmove', handleTouchMove, false);
-canvas1.addEventListener('touchend', handleTouchEnd, false);
-
-function handleTouchStart(event){
-    if(event.touchs.length==2){
-        mpx1 = event.touches[0].clientX;
-        mpy1 = event.touches[0].clientY;
-        mpx2 = event.touches[1].clientX;
-        mpy2 = event.touches[1].clientY;
-    }
-}
-
+//画面（タッチパッド）を指でなぞったときの処理
 function handleTouchMove(event){
 
-    if(event.touches.length==2){
+    if(event.touches.length==2){    //指2本で触れている
 
         twofinger = true;
 
-        if(mpx1==-1 || mpy1==-1 || mpx2==-1 || mpy2==-1){
+        if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき
 
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-            mpx2 = event.touches[1].clientX;
-            mpy2 = event.touches[1].clientY;
+            pmouseX1 = event.touches[0].clientX;
+            pmouseY1 = event.touches[0].clientY;
+            pmouseX2 = event.touches[1].clientX;
+            pmouseY2 = event.touches[1].clientY;
 
-        }else{
+        }else{  //1フレーム前も2本指のとき
 
             let mx1, my1, mx2, my2;
             mx1 = event.touches[0].clientX;
@@ -197,83 +216,57 @@ function handleTouchMove(event){
             mx2 = event.touches[1].clientX;
             my2 = event.touches[1].clientY;
 
+            let d1, d2; 
+            d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
+            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            let d1, d2;
-            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+            camera1.zoom *= d2 / d1 * 0.5;  //カメラのズーム量を変更
+            camera1.updateProjectionMatrix();
 
-            let v1n = camera1.position.clone().normalize();
-            let v1l = camera1.position.length();
-
-            v1l = Math.max(v1l +(d1-d2)*0.1, 1);
-            camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
-
-            mpx1 = mx1;
-            mpy1 = my1;
-            mpx2 = mx2;
-            mpy2 = my2;
-
-            
+            pmouseX1 = mx1;
+            pmouseY1 = my1;
+            pmouseX2 = mx2;
+            pmouseY2 = my2;
 
         }
 
-    }else if(event.touches.length==1){
-        if(mpx1==-1 || mpy1==-1){
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }else{
-            mousemovementX = event.touches[0].clientX - mpx1;
-            mousemovementY = event.touches[0].clientY - mpy1;
-            mpx1 = event.touches[0].clientX;
-            mpy1 = event.touches[0].clientY;
-        }
+    }else if(event.touches.length==1){  //指1本で触れている
+        pmouseX1 = event.touches[0].clientX;
+        pmouseY1 = event.touches[0].clientY;
     }
 }
 
-
+//画面（タッチパッド）から指を離したときの処理
 function handleTouchEnd(){
-    mpx1 = -1;
-    mpy1 = -1;
-    mpx2 = -1;
-    mpy2 = -1;
+    pmouseX1 = -1;
+    pmouseY1 = -1;
+    pmouseX2 = -1;
+    pmouseY2 = -1;
     twofinger = false;
 }
-
-
-
-
-
-
-
 
 
 
 //レンダリングを繰り返す
 function animate(){
 
-    requestAnimationFrame(animate); //この関数自身を呼び出すことで関数内の処理が繰り返される
+    requestAnimationFrame(animate); //この関数自身を呼び出すことでこの関数内の処理が繰り返される
 
-    if(mouseIsPressed && !twofinger)  angularvelocity.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
-    let axis = angularvelocity.clone().normalize();
-    let rad = angularvelocity.length()*0.005;
+    //キャンバスを1点でプレスしているとき回転ベクトルを更新
+    if(mouseIsPressed && !twofinger)  angularvelocity1.lerp(new THREE.Vector3(mousemovementY,mousemovementX, 0),0.2);
+    let axis = angularvelocity1.clone().normalize();    //回転軸
+    let rad = angularvelocity1.length()*0.005;  //回転量
 
-    mousemovementX = 0;
-    mousemovementY = 0;
+    dummymesh.rotateOnWorldAxis(axis, rad); //ダミーメッシュを回転
 
-
-    dummymesh.rotateOnWorldAxis(axis, rad);
-
-    scene1.traverse((object)=>{
+    scene1.traverse((object)=>{ //scene1に含まれる全てのメッシュの姿勢をダミーメッシュと一致させる
         if(object.isMesh){
             object.rotation.copy(dummymesh.rotation);
         }
     });
 
-    
-
-    // mesh.rotation.copy(dummymesh.rotation);
-    // tubemesh1.rotation.copy(dummymesh.rotation);
-    // tubemesh2.rotation.copy(dummymesh.rotation);
+    mousemovementX = 0; //マウス移動量を初期化
+    mousemovementY = 0;
 
     renderer1.render(scene1, camera1);  //レンダリング
 }
@@ -281,59 +274,9 @@ animate();
 
 
 
-function veclist(arg, sc){
-    let result = [];
-    for(let i=0; i<arg.length; i++){
-        result.push(new THREE.Vector3(arg[i][0]*sc, arg[i][1]*sc, arg[i][2]*sc));
-    }
-    return result;
-}
-
-function veclist2(arg, sc){
-    let result = [];
-    for(let i=0; i<arg.length; i+=3){
-        result.push(new THREE.Vector3(arg[i]*sc, arg[i+1]*sc, arg[i+2]*sc));
-    }
-    return result;
-}
-
-
-// マウスホイールイベントのリスナーを追加
-document.addEventListener('wheel', function(event) {
-
-    if(canvasover){
-
-        let v1n = camera1.position.clone().normalize();
-        let v1l = camera1.position.length();
-
-        if (event.deltaY > 0) {
-            v1l = Math.min(Math.max(v1l*1.1, 1), 100);
-            
-        } else {
-            v1l = Math.min(Math.max(v1l*0.9, 1), 100);
-        }
-        camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
-    
-    }
-
-});
-
-
-// スクロールを禁止する関数
-function disableScroll() {
-    document.body.style.overflow = 'hidden';
-}
-
-// スクロールを有効にする関数
-function enableScroll() {
-    document.body.style.overflow = '';
-}
-
-
-
-
-
+//#############################################################
 //自作関数
+//#############################################################
 
 
 //パラメトリックプロット　チューブ ver1.0
@@ -437,7 +380,7 @@ function parametricmesh(func, urange, vrange, option1){
 }
 
 
-//更新　ver1.0
+//parametricmesh及びparametrictubeで生成したオブジェクトの座標更新　ver1.0
 function updateobjects(scene){
 
     scene.traverse((object)=>{
