@@ -17,7 +17,7 @@ canvas1.addEventListener('contextmenu', (event) => {
 
 let canvasover = false;
 
-document.addEventListener('mousemove', (event)=>{
+document.addEventListener('click', (event)=>{
     if(event.target.tagName.toLowerCase()=='canvas'){
         canvasover = true;
         disableScroll();
@@ -65,10 +65,6 @@ const light2 = new THREE.DirectionalLight(0xffffff, 0.1);
 light2.position.set(-1,-1,1);
 scene1.add(light2);
 
-
-
-//マウスドラッグによる視点操作（物体を回転させる機能をつけたので現在は使用していない）
-//const controls = new THREE.OrbitControls(camera1, renderer1.domElement);
 
 
 //オブジェクト
@@ -181,29 +177,23 @@ function handleTouchMove(event){
             mx2 = event.touches[1].clientX;
             my2 = event.touches[1].clientY;
 
-            //2本の指が近づくまたは離れるとき
 
-            let move1 = new THREE.Vector3(mx1-mpx1, my1-mpy1);
-            let move2 = new THREE.Vector3(mx2-mpx2, my2-mpy2);
+            let d1, d2;
+            d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
+            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
 
-            if(move1.angleTo(move2) > Math.PI/2){
+            let v1n = camera1.position.clone().normalize();
+            let v1l = camera1.position.length();
 
-                let d1, d2;
-                d1 = Math.sqrt((mpx1-mpx2)**2+(mpy1-mpy2)**2);
-                d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);
+            v1l = Math.max(v1l +(d1-d2)*0.1, 1);
+            camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
 
-                let v1n = camera1.position.clone().normalize();
-                let v1l = camera1.position.length();
+            mpx1 = mx1;
+            mpy1 = my1;
+            mpx2 = mx2;
+            mpy2 = my2;
 
-                v1l = Math.max(v1l +(d1-d2)*0.1, 1);
-                camera1.position.set(v1n.x*v1l, v1n.y*v1l, v1n.z*v1l);
-
-                mpx1 = mx1;
-                mpy1 = my1;
-                mpx2 = mx2;
-                mpy2 = my2;
-
-            }
+            
 
         }
 
