@@ -158,10 +158,9 @@ function main(){
 
     meshgroup = new THREE.Group();  //meshgroupを再定義
 
-    rotate_angle = -Math.PI/2*Number(slider1.value);    //角度・太さ・長さを更新　Number(slider.value)は0から1の値
-    tube_thick = Number(slider2.value)*0.6 + 0.1;
-    tube_length = Number(slider3.value)*5;
-
+    rotate_angle = -Math.PI/2*Number(slidera.value);    //角度・太さ・長さを更新　Number(slider.value)は0から1の値
+    tube_thick = Number(sliderb.value)*0.6 + 0.1;
+    tube_length = Number(sliderc.value)*5;
 
     //多面体の辺の数だけループを回してチューブを生成する
     for(let i=0; i<edge.length; i++){
@@ -296,6 +295,20 @@ slider3.addEventListener('input',()=>{
     select3.value = 'null';
 });
 
+slidera.func = () =>{
+    main();
+    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
+};
+
+sliderb.func = () =>{
+    main();
+    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
+};
+
+sliderc.func = () =>{
+    main();
+    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
+};
 
 
 //基本となる多面体を変更時の処理

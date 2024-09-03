@@ -3,17 +3,16 @@ class Slider1d{
 
     constructor(func, option){
 
-        const defaultoption = {width:500, height:200, bar_width:440, bar_height:20, thumb_radius:30, background_color:"#eeeeee"};
+        const defaultoption = {width:500, height:200, bar_width:440, bar_height:20, thumb_radius:30, background_color:"#eeeeee", value:0.5};
         
         this.option = {...defaultoption, ...option};
-
-        console.log(this.option);
         
         this.mouseIsPressed = false;
         this.margin = ( this.option.width - this.option.bar_width ) / 2;
+        this.value = this.option.value;
         this.mx = -1;
         this.my = -1;
-        this.px = ( this.option.width - this.option.bar_width ) / 2 + this.option.bar_width / 2;
+        this.px = ( this.option.width - this.option.bar_width ) / 2 + this.option.bar_width * this.value;
         this.func = func;
         
         this.container = document.createElement("div");
