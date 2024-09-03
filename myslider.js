@@ -21,7 +21,7 @@ class Slider1d{
         this.container.style.width = this.option.width;
         this.container.style.height = this.option.height;
         this.container.style.backgroundColor = this.option.background_color;
-        // this.container.style.pointerEvents = "none";
+        this.container.style.touchAction = "none";
 
         //灰色バー
         this.bar1 = document.createElement("div");
