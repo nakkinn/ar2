@@ -1,46 +1,135 @@
-
 <html lang="ja">
 
   <head>
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">  
+    <title>辺回転</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
-
 
   <body>
 
-    <!--キャンバス-->
-    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
+    <script src="myslider.js"></script>
 
-    <script>  
-      let canvas1 = document.getElementById('3d_graphic_canvas'); 
+    <a href="../index.html" hidden>HOME</a>
+
+    <h3>多面体の辺回転</h3>
+
+
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を閉じる</summary>
+      <p>
+        多面体の全ての辺を中点で固定して一斉に回転させます。
+        <br>
+        スライダーで辺の回転量・太さ・長さを調整できます。
+        <br>
+        グラフィックスをつまんで回したり、マウスホイールでサイズを調整してください。
+      </p>
+
+    </details>
+
+
+    <div style="display:flex;align-items:center;">
+
+      <h4 style="margin:5px">基本となる多面体　</h4>
+
+      <select id="select1" style="font-size:20px;">
+        <option value="option1">立方体から正8面体へ</option>
+        <option value="option2">正20面体から正12面体へ</option>
+      </select>
+
+    </div>
+
+    <!--立方体モードのときに非表示にする要素に class="hiddenElement"とつける-->
+    <div style="display:flex;align-items:center;margin-bottom:20px">
+  
+      <h4 style="margin:5px" class="hideElement">配色　</h4>
+
+      <select id="select2" style="font-size:20px;" class="hideElement">
+        <option value="1col">1色</option>
+        <option value="5col">5色</option>
+        <option value="6cola">6色A</option>
+        <option value="6colb">6色B</option>
+        <option value="10cola">10色A</option>
+        <option value="10colb">10色B</option>
+      </select>
+
+    </div>
+
+
+
+    <div>
+      <label for="slider1">回転</label>
+      <input type="range" id="slider1" min="0" max="1" step="0.004" value="0" style="width:400px" hidden>
+      <label for="slider1" id="label1">0度</label>
+    </div>
+
+    <script>
+      const slidera = new Slider1d(()=>{},{height:30,bar_height:15,thumb_radius:20,background_color:"#eeeeee"})
+    </script>
+
+    <div>
+      <label for="slider2">太さ</label>
+      <input type="range" id="slider2" min="0" max="1" step="0.01" value="0.16" style="width:400px" hidden>
+    </div>
+
+    <script>
+      const sliderb = new Slider1d(()=>{},{height:30,bar_height:15,thumb_radius:20,background_color:"#eeeeee"})
+    </script>
+
+    <div>    
+      <label for="slider3">長さ</label>
+      <input type="range" id="slider3" min="0" max="1" step="0.01" value="0.18" style="width:400px" hidden>
+    </div>
+
+    <script>
+      const sliderc = new Slider1d(()=>{},{height:30,bar_height:15,thumb_radius:20,background_color:"#eeeeee"})
+    </script>
+
+
+    
+
+    <div style="height:30px"></div>
+
+    <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
+    <script>
+      let canvas1 = document.getElementById('canvas1');
       let size = Math.min(600, window.innerWidth);
-      canvas1.width =  window.innerWidth * window.devicePixelRatio; 
+      canvas1.width = size * window.devicePixelRatio;
       canvas1.height = size * window.devicePixelRatio;
-      canvas1.style.width =  window.innerWidth;
+      canvas1.style.width = size;
       canvas1.style.height = size;
     </script>
 
-    <div style="height:20px"></div>
-
-    <!--曲面を変化させるスライダー-->
-    <!--スライダー出力あたいとパラメータの関係式をdata-parameterで指定-->
-    <input type="range" id="slider1" min='0' max='1' step='0.01' value='1' data-parameter="t1 = #" style="width:min(90%,400px); margin-left:min(5%,30px); margin-right:30px">
-
-    <div style="height:20px"></div>
+    <div style="height:30px"></div>
 
 
-    <!--外部ライブラリ-->
-    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>  
-    
+    <div style="display:flex;align-items:center;" id="kakushi2">
+  
+      <h4 style="margin:5px" class="hideElement">途中に現れる顕著な図形　</h4>
 
-    <!--自作プログラム-->
-    <script src="common_cgweb1.js"></script>  <!--ver8-->
+      <select id="select3" style="font-size:20px;" class="hideElement">
+        <option value="ico">正二十面体</option>
+        <option value="triangle">正三角形10個絡み</option>
+        <option value="5parallel">5本平行棒6筋</option>
+        <option value="tetra">正四面体5個</option>
+        <option value="pentagon">正五角形6つ絡み</option>
+        <option value="star">星型6つ絡み</option>
+        <option value="3parallel">3本平行棒10筋</option>
+        <option value="dodeca">正十二面体</option>
+        <option value="null"></option>
+      </select>
 
-    <script src = "data1.js"></script>
-    
-    <script src = 'custom_script2.js'></script> <!--custom_script1とcustom_script2の2種類が使用可能-->
-    
+    </div>
+
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+    <!--共通プログラム-->
+    <script src="common_script1.js"></script>
+    <script src="common_script2.js"></script>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
 
   </body>
 
