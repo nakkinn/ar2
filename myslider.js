@@ -124,4 +124,12 @@ class Slider1d{
             this.mx = x;
         }
     }
+
+    update(){
+        console.log(33);
+        this.px = ( this.option.width - this.option.bar_width ) / 2 + this.option.bar_width * this.value;
+        this.circle1.style.left = this.px - this.option.thumb_radius / 2;
+        this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius;
+        this.bar2.style.width = this.px - ( this.option.width - this.option.bar_width ) / 2;
+    }
 }

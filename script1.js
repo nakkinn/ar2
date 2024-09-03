@@ -366,64 +366,88 @@ select3.addEventListener('input',()=>{
 
     //スライダーの値を更新
     if(select3.value=='ico'){
-        slider1.value = 0;
-        slider2.value = 0.16;
-        slider3.value = 0.18;
+        slidera.value = 0;
+        sliderb.value = 0.16;
+        sliderc.value = 0.18;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         main();
     }
 
     if(select3.value=='triangle'){
-        slider1.value = 0.232;
-        slider2.value = 0.2;
-        slider3.value = 0.56;
+        slidera.value = 0.232;
+        sliderb.value = 0.2;
+        sliderc.value = 0.56;
         select2.value = '10cola';
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         main();
     }
 
     if(select3.value=='5parallel'){
-        slider1.value = 0.348;
-        slider2.value = 0.35;
-        slider3.value = 0.26;
+        slidera.value = 0.348;
+        sliderb.value = 0.35;
+        sliderc.value = 0.26;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         select2.value = '6cola';
         main();
     }
 
     if(select3.value=='pentagon'){
-        slider1.value = 0.648;
-        slider2.value = 0.26;
-        slider3.value = 0.23;
+        slidera.value = 0.648;
+        sliderb.value = 0.26;
+        sliderc.value = 0.23;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         select2.value = '6colb';
         main();
     }
 
     if(select3.value=='star'){
-        slider1.value = 0.648;
-        slider2.value = 0.26;
-        slider3.value = 0.98;
+        slidera.value = 0.648;
+        sliderb.value = 0.26;
+        sliderc.value = 0.98;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         select2.value = '6colb';
         main();
     }
 
     if(select3.value=='3parallel'){
-        slider1.value = 0.768;
-        slider2.value = 0.2;
-        slider3.value = 0.26;
+        slidera.value = 0.768;
+        sliderb.value = 0.2;
+        sliderc.value = 0.26;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         select2.value = '10colb';
         main();
     }
 
     if(select3.value=='tetra'){
-        slider1.value = 0.5;
-        slider2.value = 0.23;
-        slider3.value = 0.45;
+        slidera.value = 0.5;
+        sliderb.value = 0.23;
+        sliderc.value = 0.45;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         select2.value = '5col';
         main();
     }
 
     if(select3.value=='dodeca'){
-        slider1.value = 1;
-        slider2.value = 0.18;
-        slider3.value = 0.12;
+        slidera.value = 1;
+        sliderb.value = 0.18;
+        sliderc.value = 0.12;
+        slidera.update();
+        sliderb.update();
+        sliderc.update();
         main();
     }
 
