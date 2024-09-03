@@ -15,8 +15,8 @@
     <h3>多面体の辺回転</h3>
 
 
-    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
-      <summary id="summary_label">説明を閉じる</summary>
+    <details id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を開く</summary>
       <p>
         多面体の全ての辺を中点で固定して一斉に回転させます。
         <br>
@@ -64,7 +64,7 @@
     </div>
 
     <script>
-      const slidera = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:60,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
+      const slidera = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
     </script>
 
     <div>
@@ -73,7 +73,7 @@
     </div>
 
     <script>
-      const sliderb = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:60,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.16})
+      const sliderb = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.16})
     </script>
 
     <div>    
@@ -82,7 +82,7 @@
     </div>
 
     <script>
-      const sliderc = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:60,bar_height:15,thumb_radius:20,background_color:"#fffffff",value:0.18})
+      const sliderc = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#fffffff",value:0.18})
     </script>
 
 
