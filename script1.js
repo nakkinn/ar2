@@ -90,10 +90,6 @@ edge = new Array(ico_edge.length);
 for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
 
 
-const slider1 = document.getElementById('slider1');     //角度スライダー
-const slider2 = document.getElementById('slider2');     //太さスライダー
-const slider3 = document.getElementById('slider3');     //長さスライダー
-
 
 const select1 = document.getElementById('select1');     //基本となる多面体セレクトボックス
 const select2 = document.getElementById('select2');     //配色セレクトボックス
@@ -104,9 +100,9 @@ select2.value = '6cola';    //配色の初期値
 
 
 //角度・太さ・長さの変数定義　初期値をスライダーの値を使って決定
-let rotate_angle = -Math.PI/2*Number(slider1.value);
-let tube_thick = Number(slider2.value)*0.6 + 0.1;
-let tube_length = Number(slider3.value)*5;
+let rotate_angle = -Math.PI/2*Number(slidera.value);
+let tube_thick = Number(sliderb.value)*0.6 + 0.1;
+let tube_length = Number(sliderc.value)*5;
 
 
 //10種類のマテリアル
@@ -277,23 +273,7 @@ main();
 const label1 = document.getElementById('label1');
 
 
-//角度スライダー
-slider1.addEventListener('input',()=>{
-    main();
-    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
-});
 
-//太さスライダー
-slider2.addEventListener('input',()=>{
-    main();
-    select3.value = 'null';
-});
-
-//長さスライダー
-slider3.addEventListener('input',()=>{
-    main();
-    select3.value = 'null';
-});
 
 slidera.func = () =>{
     main();

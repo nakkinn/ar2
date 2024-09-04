@@ -56,40 +56,6 @@
     </div>
 
 
-
-    <div>
-      <label for="slider1">回転</label>
-      <input type="range" id="slider1" min="0" max="1" step="0.004" value="0" style="width:400px" hidden>
-      <label for="slider1" id="label1">0度</label>
-    </div>
-
-    <script>
-      const slidera = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
-    </script>
-
-    <div>
-      <label for="slider2">太さ</label>
-      <input type="range" id="slider2" min="0" max="1" step="0.01" value="0.16" style="width:400px" hidden>
-    </div>
-
-    <script>
-      const sliderb = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.16})
-    </script>
-
-    <div>    
-      <label for="slider3">長さ</label>
-      <input type="range" id="slider3" min="0" max="1" step="0.01" value="0.18" style="width:400px" hidden>
-    </div>
-
-    <script>
-      const sliderc = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#fffffff",value:0.18})
-    </script>
-
-
-    
-
-    <div style="height:30px"></div>
-
     <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
     <script>
       let canvas1 = document.getElementById('canvas1');
@@ -98,6 +64,30 @@
       canvas1.height = size * window.devicePixelRatio;
       canvas1.style.width = size;
       canvas1.style.height = size;
+    </script>
+
+    <div style="height:30px"></div>
+
+    <div style="display:flex;align-items:center">
+      <p>回転　</p>
+      <p id="label1">0度</p>
+    </div>
+
+    <script>
+      const slidera = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
+    </script>
+
+    <p>太さ</p>
+
+    <script>
+      const sliderb = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.16})
+    </script>
+
+    <p for="slider3">長さ</p>
+
+
+    <script>
+      const sliderc = new Slider1d(()=>{},{width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#fffffff",value:0.18})
     </script>
 
     <div style="height:30px"></div>
