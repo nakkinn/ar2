@@ -1,0 +1,59 @@
+<html lang="ja">
+
+  <head>
+    <title>通常メビウスの帯　スマホ版</title>
+    <meta charset="UTF-8">
+
+  </head>
+
+  <body>
+
+    <div style="height:30px"></div>
+    <a href="../index_mobile.html" style="font-size:40px;margin-left:30px;">HOME</a>
+
+    <br>
+
+    <h3 style="font-size:40px;margin-top:60px">メビウスの帯</h3>
+
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label" style="font-size:30px">説明を閉じる</summary>
+      <p style="font-size:20px">
+        スライダーを動かして、帯を中央線から裂くことができます。<br>
+        グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
+      </p>
+    </details> 
+
+
+    <!--スライダー　[0,1]区間で0.01刻みに動く　スライダーを太くしたいときはstyleの文字列に transform:scale(数値); を追加する-->
+    <input type="range" id="rangeslider1" min="0" max="1" step="0.01" value="0" style="width:28%; transform:scale(3); margin-left:36%; margin-top:50px">
+
+    <div style="height:120px"></div>
+
+    <!--CGを表示するキャンバス-->
+    <canvas id="canvas1" style="margin-left:-8px"></canvas>  <!--id名は"canvas1"にする-->
+
+    <!--ウィンドウサイズにプロポーショナルにサイズ設定する場合-->
+    <script>
+      document.getElementById('canvas1').width = window.innerWidth;
+      document.getElementById('canvas1').height = window.innerHeight*0.6;
+    </script>
+
+    <br>
+
+    <div>
+      <label style="font-size:20px;"><input type="checkbox" id="checkbox1" checked="true" style="transform:scale(1.2);">コアカーブを表示</label>
+    </div>
+
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+   
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
+    <script src="../common_script2.js"></script>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,68 @@
+<html lang="ja">
+
+  <head>
+    <title>4次元を経由したメビウスの帯</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+  </head>
+
+  <body>
+
+    <a href="../index.html">HOME</a>
+
+    <br>
+
+    <div style="display:flex;align-items:center">
+
+      <h3>4次元を経由したメビウスの帯</h3>
+
+      <select id="select1" style="font-size:20px; margin-left:100px">
+        <option value="option1">曲面なし</option>
+        <option value="option2">曲面全体</option>
+        <option value="option3">標準メビウスの帯</option>
+        <option value="option4">中央で裂いた標準メビウス</option>
+      </select>
+
+    </div>
+
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を閉じる</summary>
+      <p>
+        4次元空間に固定したメビウスの帯を立体射影で3次元空間に射影します。<br>
+        スライダーで射影する方向を変えると3次元空間内で様々に姿を変えます。<br>
+        グラフィックスをつまんで回したり、マウスホイールでサイズを調整してください。
+      </p>
+    </details>
+
+
+    <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
+    <script>
+      let canvas1 = document.getElementById('canvas1');
+      let size = Math.min(600, window.innerWidth);
+      canvas1.width = size * window.devicePixelRatio;
+      canvas1.height = size * window.devicePixelRatio;
+      canvas1.style.width = size;
+      canvas1.style.height = size;
+    </script>
+
+    <div style="height:30px"></div>
+
+    <script src="../myslider.js"></script>
+    <script>
+      const slidera = new Slider1d({width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.7, (window.innerWidth)*0.7),height:70,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
+    </script>
+
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
+    <script src="../common_script2.js"></script>
+    <!--メインのプログラム-->
+    <script src="data_high.js"></script> <!--必要に応じてdata_high.jsとdata_low.jsとを使い分ける-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,59 @@
+<html lang="ja">
+
+  <head>
+    <title>超立方体　スマホ版</title>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+  </head>
+
+  <body>
+
+    <div style="height:30px"></div>
+    <a href="../index_mobile.html" style="font-size:40px;margin-left:30px;">HOME</a>
+
+    <h3 style="font-size:40px; margin-top:60px">超立方体</h3>
+
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label" style="font-size:30px">説明を閉じる</summary>
+      
+      <p style="font-size:20px">
+        超立方体を立体射影で3次元空間に射影します。<br>
+        スライダーで射影する方向を変えると3次元空間で様々に姿を変えます。<br>
+        グラフィックスをつまんで回したり、2本指操作でサイズを調整してください。
+      </p>
+
+    </details>
+
+
+    <input type="range" id="slider1" min="0" max="1" step="0.01" value="0" style="width:28%; transform:scale(3); margin-left:35%; margin-bottom:30px; margin-top:50px">
+
+    <div style="height:20px"></div>
+
+    <input type="range" id="slider2" min="0" max="1" step="0.01" value="0" style="width:28%; transform:scale(3); margin-left:35%; margin-bottom:30px; margin-top:50px">
+
+    <div style="height:20px"></div>
+
+    <input type="range" id="slider3" min="0" max="1" step="0.01" value="0" style="width:28%; transform:scale(3); margin-left:35%; margin-bottom:30px; margin-top:50px">
+
+    <div style="height:90px"></div>
+
+    <canvas id="canvas1" style="margin-left:-8px"></canvas> <!--id名は"canvas1"にする-->
+
+    <script>
+      document.getElementById('canvas1').width = window.innerWidth;
+      document.getElementById('canvas1').height = window.innerHeight*0.6;
+    </script>
+
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
+    <script src="../common_script2.js"></script>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,91 @@
+<html lang="ja">
+
+  <head>
+    <title>不思議な形　スマホ版</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+
+    <div style="height:30px"></div>
+    <a href="../index_mobile.html" style="font-size:40px;margin-left:30px;">HOME</a>
+
+  
+ 
+    <div style="height:60px"></div>
+
+
+
+    <select id="select1" style="font-size:30px;" hidden>
+      <option value="option1">立方体から正8面体へ</option>
+      <option value="option2">正20面体から正12面体へ</option>
+    </select>
+
+    <select id="select2" style="font-size:45px;margin-bottom:30px">
+      <option value="option1">1色</option>
+      <option value="option2">5色</option>
+      <option value="option3">6色</option>
+    </select>
+</p>
+
+  
+ <!--
+  <div style="height:30px"></div>
+-->
+
+    <div>
+      <input type="range" id="slider1" min="0" max="500" value="0" style="width:200px" hidden>
+            <label for="slider1" id="label1" hidden>0度</label>
+          
+    </div>
+
+    <div>
+      <input type="range" id="slider2" min="100" max="400" value="100" style="width:200px" hidden>
+    </div>
+    
+    <div>    
+      <input type="range" id="slider3" min="50" max="500" value="95" style="width:200px" hidden>
+    </div>
+
+
+
+  
+    <div style="height:30px"></div>
+
+    <canvas id="canvas1" style="touch-action:none"></canvas>
+
+    <script>
+      let canvas = document.getElementById('canvas1');
+      let size = Math.min(600, window.innerWidth);
+      canvas.width = size * window.devicePixelRatio;
+      canvas.height = size * window.devicePixelRatio;
+      canvas.style.width = size;
+      canvas.style.height = size;
+    </script>
+    
+
+    <select id="select3" style="font-size:30px;" hidden>
+      <option value="option1">正二十面体</option>
+      <option value="option2">5本平行棒10筋</option>
+      <option value="option3">正五角形6つ絡み</option>
+      <option value="option4">星型6つ絡み</option>
+      <option value="option5">3本平行棒10筋</option>
+      <option value="option8">正四面体5つ</option>
+      <option value="option6">正十二面体</option>
+      <option value="option7"></option>
+    </select>
+  </p>
+
+     <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>

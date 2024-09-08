@@ -1,0 +1,58 @@
+<html lang="ja">
+
+  <head>
+    <title>超立方体</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+
+    <a href="../index.html">HOME</a>
+
+    <h3>超立方体</h3>
+
+    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を閉じる</summary>
+
+      <p>
+        超立方体を立体射影で3次元空間に射影します。<br>
+        スライダーで射影する方向を変えると3次元空間で様々に姿を変えます。<br>
+        グラフィックスをつまんで回したり、スクロール操作でサイズを調整してください。
+      </p>
+
+    </details>
+
+
+
+    <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
+    <script>
+      let canvas1 = document.getElementById('canvas1');
+      let size = Math.min(600, window.innerWidth);
+      canvas1.width = size * window.devicePixelRatio;
+      canvas1.height = size * window.devicePixelRatio;
+      canvas1.style.width = size;
+      canvas1.style.height = size;
+    </script>
+
+
+
+    <script src="../myslider.js"></script>
+    <script>
+      const slidera = new Slider1d({width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.7, (window.innerWidth)*0.7),height:70,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
+      const sliderb = new Slider1d({width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.7, (window.innerWidth)*0.7),height:70,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0});
+      const sliderc = new Slider1d({width:Math.min(500, window.innerWidth),bar_width:Math.min(500*0.7, (window.innerWidth)*0.7),height:70,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
+    </script>
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+    <!--共通プログラム-->
+    <script src="../common_script1.js"></script>
+    <script src="../common_script2.js"></script>
+    <!--メインのプログラム-->
+    <script src='script1.js'></script>
+
+  </body>
+
+</html>
