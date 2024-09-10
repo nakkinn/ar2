@@ -3,7 +3,7 @@ class Slider1d{
 
     constructor(option){
 
-        const defaultoption = {width:500, height:200, bar_width:440, bar_height:20, thumb_radius:30, background_color:"#eeeeee", value:0.5, parent:-1};
+        const defaultoption = {width:500, height:200, bar_width:440, bar_height:20, thumb_radius:30, background_color:"#eeeeee", value:0.5, parent:-1, dx:0};
         
         this.option = {...defaultoption, ...option};
         
@@ -29,7 +29,7 @@ class Slider1d{
         this.bar1.style.borderRadius = this.option.bar_height / 2 + "px";
         this.bar1.style.position = "absolute";
         this.bar1.style.top = this.option.height / 2 - this.option.bar_height / 2;
-        this.bar1.style.left = ( this.option.width - this.option.bar_width ) / 2;
+        this.bar1.style.left = ( this.option.width - this.option.bar_width ) / 2 + this.option.dx;
         this.bar1.style.backgroundColor = "#969696";
         this.bar1.style.pointerEvents = "none";
         this.bar1.style.boxShadow = "inset 0 0 "+ this.option.bar_height*0.4+"px rgba(54,54,54,0.8)";
@@ -41,7 +41,7 @@ class Slider1d{
         this.bar2.style.borderRadius = this.option.bar_height / 2 + "px";
         this.bar2.style.position = "absolute";
         this.bar2.style.top = this.option.height / 2 - this.option.bar_height / 2;
-        this.bar2.style.left = ( this.option.width - this.option.bar_width ) / 2;
+        this.bar2.style.left = ( this.option.width - this.option.bar_width ) / 2 + this.option.dx;
         this.bar2.style.backgroundColor = "#9FD0E9";
         this.bar2.style.pointerEvents = "none";
         this.bar2.style.boxShadow = "inset 0 0 "+ this.option.bar_height*0.4+"px rgba(0, 85, 151, 0.8)";
@@ -53,7 +53,7 @@ class Slider1d{
         this.circle1.style.borderRadius = "50%";
         this.circle1.style.position = "absolute";
         this.circle1.style.top = this.option.height / 2 - this.option.thumb_radius / 2;
-        this.circle1.style.left = this.px - this.option.thumb_radius / 2;
+        this.circle1.style.left = this.px - this.option.thumb_radius / 2 + this.option.dx;
         this.circle1.style.pointerEvents = "none";
         this.circle1.style.backgroundColor = "#d4d4d4";
         this.circle1.style.boxShadow = "0px 0px " + 2/30*this.option.thumb_radius + "px rgba(0,0,0,0.4),inset 0 0px " + 1/30*this.option.thumb_radius + "px rgba(0,0,0,0.3),0 " + 1/30*this.option.thumb_radius + "px " + 2/30*this.option.thumb_radius + "px rgba(0,0,0,0.6),0 " + 4/30*this.option.thumb_radius + "px " + 2/30*this.option.thumb_radius + "px rgba(0,0,0,0.2),0 " + 9/30*this.option.thumb_radius + "px " + 4/30*this.option.thumb_radius + "px rgba(0,0,0,0.1),inset " + 1/30*this.option.thumb_radius + "px " + 4/30*this.option.thumb_radius + "px " + 2/30*this.option.thumb_radius + "px rgba(255,255,255,1.0)"
@@ -65,7 +65,7 @@ class Slider1d{
         this.circle2.style.borderRadius = "50%";
         this.circle2.style.position = "absolute";
         this.circle2.style.top = this.option.height / 2 - this.option.thumb_radius / 2 - 8/30*this.option.thumb_radius;
-        this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius;
+        this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius + this.option.dx;
         this.circle2.style.pointerEvents = "none";
         this.circle2.style.backgroundColor = "none";
         this.circle2.style.backgroundImage = "radial-gradient(rgba(255,255,255,1.0), rgba(255,255,255,0.05), rgba(255,255,255,0.0))";
@@ -116,8 +116,8 @@ class Slider1d{
             this.value = (this.px - this.margin) / (this.option.width - this.margin*2);
             this.func();
 
-            this.circle1.style.left = this.px - this.option.thumb_radius / 2;
-            this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius;
+            this.circle1.style.left = this.px - this.option.thumb_radius / 2 + this.option.dx;
+            this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius + this.option.dx;
             this.bar2.style.width = this.px - ( this.option.width - this.option.bar_width ) / 2;
 
         }
@@ -128,10 +128,9 @@ class Slider1d{
     }
 
     update(){
-        console.log(33);
         this.px = ( this.option.width - this.option.bar_width ) / 2 + this.option.bar_width * this.value;
-        this.circle1.style.left = this.px - this.option.thumb_radius / 2;
-        this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius;
+        this.circle1.style.left = this.px - this.option.thumb_radius / 2 + this.option.dx;
+        this.circle2.style.left = this.px - this.option.thumb_radius / 2 - 3/30*this.option.thumb_radius + this.option.dx;
         this.bar2.style.width = this.px - ( this.option.width - this.option.bar_width ) / 2;
     }
 }
