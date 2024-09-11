@@ -12,8 +12,8 @@
 
     <h3>超立方体</h3>
 
-    <details open id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
-      <summary id="summary_label">説明を閉じる</summary>
+    <details id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を開く</summary>
 
       <p>
         超立方体を立体射影で3次元空間に射影します。<br>
@@ -29,9 +29,9 @@
       let canvas1 = document.getElementById('canvas1');
       let size = Math.min(600, window.innerWidth);
       canvas1.width = size * window.devicePixelRatio;
-      canvas1.height = size * window.devicePixelRatio;
+      canvas1.height = size * window.devicePixelRatio * 0.8;
       canvas1.style.width = size;
-      canvas1.style.height = size;
+      canvas1.style.height = size * 0.8;
     </script>
 
 

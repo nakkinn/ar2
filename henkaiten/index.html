@@ -1,7 +1,7 @@
 <html lang="ja">
 
   <head>
-    <title>辺回転2</title>
+    <title>辺回転3</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -9,13 +9,6 @@
     
 
   <body>
-
-    <!--Simplebar 外部ライブラリ-->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/simplebar@latest/dist/simplebar.css"
-    />
-    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
 
     <a href="../index.html">HOME</a>
 
@@ -29,7 +22,7 @@
 
 
     <details id="mydetail" style="margin-bottom:20px;overflow-wrap:break-word;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
-      <summary id="summary_label">説明を開く / 閉じる</summary>
+      <summary id="summary_label">説明を開く</summary>
       <p>
         多面体の全ての辺を中点で固定して一斉に回転させます。
         <br>
@@ -72,9 +65,9 @@
       let canvas1 = document.getElementById('canvas1');
       let size = Math.min(600, window.innerWidth-30);
       canvas1.width = size * window.devicePixelRatio;
-      canvas1.height = size * window.devicePixelRatio;
+      canvas1.height = size * window.devicePixelRatio * 0.8;
       canvas1.style.width = size;
-      canvas1.style.height = size;
+      canvas1.style.height = size * 0.8;
     </script>
 
     <div style="height:30px"></div>
@@ -131,14 +124,10 @@
 
     <!--共通プログラム-->
     <script src="common_script1.js"></script>
-    <script src="common_script2.js"></script>
+    <script src="../common_script2.js"></script>
     <!--メインのプログラム-->
     <script src='script1.js'></script>
 
-    <!--スクロールバーの追加-->
-    <script>
-      //const simpleBar = new SimpleBar(document.querySelector('body'),{autoHide:false});
-    </script>
 
   </body>
 
