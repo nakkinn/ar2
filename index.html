@@ -1,144 +1,76 @@
 <html lang="ja">
-
+  <!--v24-->
   <head>
-    <title>辺回転2</title>
+    <title>公開講座2024 PC版</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width">
   </head>
-    
 
   <body>
 
-    <!--Simplebar 外部ライブラリ-->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/simplebar@latest/dist/simplebar.css"
-    />
-    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+    <!--タイトル（大きめのフォント）-->
+    <h3>【公開講座 2024】多面体やメビウスの帯から広がる図形の世界を愉しむ</h3>
 
-    <a href="../index.html">HOME</a>
+    <p>
+      アイテムをクリックすると、図形を動かせるページが開きます。
+      <br>
+      図形をマウスドラッグで動かしたり、スクロール操作で拡大縮小ができます。
+      <br>
+      スマホでは、2本指でピンチイン・ピンチアウトすることで拡大縮小ができます。
+    </p>
+
+    <div style="height:30px"></div>
+    
+    <a href="mobius4D/index.html" style="margin:10px 10px 20px 20px">4次元を経由したメビウスの帯</a>
+
+    <!--改行-->
+    <br>
+
+    <!--画像リンク-->
+    <a href="mobius4D/index.html">
+      <img src="thumbnail1.png" style="width:300px">
+    </a>
+
+    <p style="margin:50px 10px 20px 20px"></p>
+
+    <a href="henkaiten/index.html" style="margin:50px 10px 20px 20px" id="link2a">多面体の辺回転</a>
 
     <br>
-    
-    <script src="../myslider.js"></script>
 
-    <a href="../index.html" hidden>HOME</a>
+    <a href="henkaiten/index.html" id="link2b">
+      <img src="thumbnail2.png" style="width:300px">
+    </a>
 
-    <h3>多面体の辺回転</h3>
+    <p style="margin:50px 10px 20px 20px"></p>
 
+    <a href="hypercube/index.html" style="margin:50px 10px 20px 20px">超立方体</a>
 
-    <details id="mydetail" style="margin-bottom:20px;overflow-wrap:break-word;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
-      <summary id="summary_label">説明を開く / 閉じる</summary>
-      <p>
-        多面体の全ての辺を中点で固定して一斉に回転させます。
-        <br>
-        スライダーで辺の回転量・太さ・長さを調整できます。
-      </p>
+    <br>
 
-    </details>
+    <a href="hypercube/index.html">
+      <img src="thumbnail3.png" style="width:300px">
+    </a>
 
+    <p style="margin:50px 10px 20px 20px"></p>
 
-    <div style="display:flex;align-items:center;flex-wrap:wrap;">
+    <a href="mobius3D/index.html" style="margin:50px 10px 20px 20px">メビウスの帯</a>
 
-      <h4 style="margin:5px;font-size:min(16px,4vw);">基本となる多面体　</h4>
+    <br>
 
-      <select id="select1" style="font-size:min(16px,4vw);">
-        <option value="option1">立方体から正8面体へ</option>
-        <option value="option2">正20面体から正12面体へ</option>
-      </select>
+    <a href="mobius3D/index.html">
+      <img src="thumbnail4.png" style="width:300px">
+    </a>
 
-    </div>
+    <p style="margin:50px 10px 20px 20px"></p>
 
-    <!--立方体モードのときに非表示にする要素に class="hiddenElement"とつける-->
-    <div style="display:flex;align-items:center;margin-bottom:20px">
-  
-      <h4 style="margin:5px;font-size:min(16px,4vw);" class="hideElement">配色　</h4>
+    <a href="extra/index.html" style="margin:50px 10px 20px 20px">不思議な形</a>
 
-      <select id="select2" style="font-size:min(16px,4vw);" class="hideElement">
-        <option value="1col">1色</option>
-        <option value="5col">5色</option>
-        <option value="6cola">6色A</option>
-        <option value="6colb">6色B</option>
-        <option value="10cola">10色A</option>
-        <option value="10colb">10色B</option>
-      </select>
+    <br>
 
-    </div>
+    <a href="extra/index.html">
+      <img src="thumbnail5.png" style="width:300px">
+    </a>
 
-
-    <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
-    <script>
-      let canvas1 = document.getElementById('canvas1');
-      let size = Math.min(600, window.innerWidth-30);
-      canvas1.width = size * window.devicePixelRatio;
-      canvas1.height = size * window.devicePixelRatio;
-      canvas1.style.width = size;
-      canvas1.style.height = size;
-    </script>
-
-    <div style="height:30px"></div>
-
-    <div style="display:flex;align-items:center" id="box1">
-      <p id="label1" style="width:90px">回転　0度</p>
-      <script>
-        const slidera = new Slider1d({width:Math.min(500, window.innerWidth-90),bar_width:Math.min(500*0.8, (window.innerWidth-90)*0.8),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0,parent:"box1", dx:-20})
-      </script>
-    </div>
-
-    <div style="display:flex;align-items:center" id="box2">
-
-      <p style="width:90px">太さ</p>
-
-      <script>
-        const sliderb = new Slider1d({width:Math.min(500, window.innerWidth-90),bar_width:Math.min(500*0.8, (window.innerWidth-90)*0.8),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.16,parent:"box2", dx:-20})
-      </script>
-
-    </div>
-
-    <div style="display:flex;align-items:center" id="box3">
-      <p style="width:90px">長さ</p>
-      <script>
-        const sliderc = new Slider1d({width:Math.min(500, window.innerWidth-90),bar_width:Math.min(500*0.8, (window.innerWidth-90)*0.8),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.18,parent:"box3", dx:-20})
-      </script>
-    </div>
-
-
-    <div style="height:30px"></div>
-
-
-    <div style="display:flex;align-items:center;flex-wrap:wrap;" id="kakushi2">
-  
-      <h4 style="margin:5px;font-size:min(16px,4vw);" class="hideElement">途中に現れる顕著な図形　</h4>
-
-      <select id="select3" style="font-size:min(16px,4vw);" class="hideElement">
-        <option value="ico">正二十面体</option>
-        <option value="triangle">正三角形10個絡み</option>
-        <option value="5parallel">5本平行棒6筋</option>
-        <option value="tetra">正四面体5個</option>
-        <option value="pentagon">正五角形6つ絡み</option>
-        <option value="star">星型6つ絡み</option>
-        <option value="3parallel">3本平行棒10筋</option>
-        <option value="dodeca">正十二面体</option>
-        <option value="null"></option>
-      </select>
-
-    </div>
-
-
-    <!--three.jsライブラリ-->
-    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
-
-    <!--共通プログラム-->
-    <script src="common_script1.js"></script>
-    <script src="common_script2.js"></script>
-    <!--メインのプログラム-->
-    <script src='script1.js'></script>
-
-    <!--スクロールバーの追加-->
-    <script>
-      const simpleBar = new SimpleBar(document.querySelector('body'),{autoHide:false});
-    </script>
 
   </body>
 

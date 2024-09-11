@@ -38,7 +38,6 @@ mycanvas.style.touchAction = "none";    //キャンバスをタッチ時スク�
 document.getElementById("canvas1").addEventListener("touchmove",(event)=>{event.preventDefault();},{passive:false});    
 
 
-
 //マウスホイールイベント　カメラのズーム値を変更
 document.addEventListener('wheel', function(event) {
 
