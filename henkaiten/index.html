@@ -27,7 +27,7 @@
     <h3>多面体の辺回転</h3>
 
 
-    <details id="mydetail" style="margin-bottom:20px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+    <details id="mydetail" style="margin-bottom:20px;font-size:max(16px,1vw);">  <!--折り畳み　openを付けると最初から開いた状態になる-->
       <summary id="summary_label">説明を開く</summary>
       <p>
         多面体の全ての辺を中点で固定して一斉に回転させます。
@@ -40,9 +40,9 @@
 
     <div style="display:flex;align-items:center;flex-wrap:wrap;">
 
-      <h4 style="margin:5px;">基本となる多面体　</h4>
+      <h4 style="margin:5px;font-size:max(16px,1vw);">基本となる多面体　</h4>
 
-      <select id="select1" style="font-size:18px;">
+      <select id="select1" style="font-size:max(16px,1vw);">
         <option value="option1">立方体から正8面体へ</option>
         <option value="option2">正20面体から正12面体へ</option>
       </select>
@@ -52,9 +52,9 @@
     <!--立方体モードのときに非表示にする要素に class="hiddenElement"とつける-->
     <div style="display:flex;align-items:center;margin-bottom:20px">
   
-      <h4 style="margin:5px" class="hideElement">配色　</h4>
+      <h4 style="margin:5px;font-size:max(16px,1vw);" class="hideElement">配色　</h4>
 
-      <select id="select2" style="font-size:20px;" class="hideElement">
+      <select id="select2" style="font-size:max(16px,1vw);" class="hideElement">
         <option value="1col">1色</option>
         <option value="5col">5色</option>
         <option value="6cola">6色A</option>
@@ -69,7 +69,7 @@
     <canvas id="canvas1"></canvas> <!--id名は"canvas1"にする-->
     <script>
       let canvas1 = document.getElementById('canvas1');
-      let size = Math.min(600, window.innerWidth-60);
+      let size = Math.min(600, window.innerWidth-30);
       canvas1.width = size * window.devicePixelRatio;
       canvas1.height = size * window.devicePixelRatio;
       canvas1.style.width = size;
