@@ -258,7 +258,7 @@ function main(){
     scene1.add(meshgroup);  //sceneにmeshgroupを追加する
 
     let kakudo = -rotate_angle / Math.PI * 180; //角度（度数法）
-    document.getElementById('label1').textContent = Math.round(kakudo) + '度'; //表示する角度の値を更新
+    document.getElementById('label1').textContent = "角度　" + Math.round(kakudo) + '度'; //表示する角度の値を更新
 
 }
 
