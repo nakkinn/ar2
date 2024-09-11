@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-      body{
-        overflow-y:scroll;
-      }
-      
-    </style>
   </head>
+    
 
   <body>
-    
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/simplebar@latest/dist/simplebar.css"
+    />
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+
     <a href="../index.html">HOME</a>
 
     <br>
@@ -132,6 +133,10 @@
     <script src="common_script2.js"></script>
     <!--メインのプログラム-->
     <script src='script1.js'></script>
+
+    <script>
+      const simpleBar = new SimpleBar(document.querySelector('body'),{autoHide:false});
+    </script>
 
   </body>
 
