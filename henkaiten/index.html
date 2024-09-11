@@ -10,6 +10,7 @@
 
   <body>
 
+    <!--Simplebar 外部ライブラリ-->
     <link
       rel="stylesheet"
       href="https://unpkg.com/simplebar@latest/dist/simplebar.css"
@@ -27,9 +28,9 @@
     <h3>多面体の辺回転</h3>
 
 
-    <details id="mydetail" style="margin-bottom:20px;font-size:10px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
-      <summary id="summary_label">説明を開く</summary>
-      <p style="font-size:10px">
+    <details id="mydetail" style="margin-bottom:20px;width:400px;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
+      <summary id="summary_label">説明を開く / 閉じる</summary>
+      <p>
         多面体の全ての辺を中点で固定して一斉に回転させます。
         <br>
         スライダーで辺の回転量・太さ・長さを調整できます。
@@ -134,6 +135,7 @@
     <!--メインのプログラム-->
     <script src='script1.js'></script>
 
+    <!--スクロールバーの追加-->
     <script>
       const simpleBar = new SimpleBar(document.querySelector('body'),{autoHide:false});
     </script>
