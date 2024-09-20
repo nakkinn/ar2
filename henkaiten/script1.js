@@ -1,5 +1,5 @@
 angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転を表すベクトル（方向が回転軸、大きさが回転速度に比例）初期値を0ベクトル以外にするとはじめから回転する
-dummymesh_common.rotation.set(0, 0, Math.PI/2); //初期姿勢（x-y-z系オイラー角）
+dummymesh_common.rotation.set(0.4, 0.2, 0); //初期姿勢（x-y-z系オイラー角）
 
 
 
