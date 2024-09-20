@@ -1,35 +1,5 @@
 angularvelocity1_common = new THREE.Vector3(0, 0, 0);    //回転を表すベクトル（方向が回転軸、大きさが回転速度に比例）初期値を0ベクトル以外にするとはじめから回転する
-dummymesh_common.rotation.set(0, 0, Math.PI/2); //初期姿勢（x-y-z系オイラー角）
-
-
-
-
-let ico_vts2 = [[0,0,0], [2., 3.23607, 0.], [2., -3.23607, 0.], [-2., -3.23607, 0.], [-2., 3.23607, 0.], [0., 2., 3.23607], [0., 2., -3.23607], [0., -2., -3.23607], [0., -2., 3.23607], [3.23607, 0., 2.], [-3.23607, 0., 2.], [-3.23607, 0., -2.], [3.23607, 0., -2.]];
-const ico_index2 = [[1, 4, 5], [1, 4, 6], [1, 5, 9], [1, 6, 12], [1, 9, 12], [2, 3, 7], [2, 3, 8], [2, 7, 12], [2, 8, 9], [2, 9, 12], [3, 7, 11], [3, 8, 10], [3, 10, 11], [4, 5, 10], [4, 6, 11], [4, 10, 11], [5, 8, 9], [5, 8, 10], [6, 7, 11], [6, 7, 12]];
-
-for(let i=0; i<ico_vts2.length; i++){
-    let x1 = ico_vts2[i][0];
-    let y1 = ico_vts2[i][1];
-    ico_vts2[i][0] = y1;
-    ico_vts2[i][1] = -x1;
-}
-
-
-let dod_vts2 = [[0,0,0],[-2., -2., -2.], [-2., -2., 2.], [-2., 2., -2.], [-2., 2., 2.], [2., -2., -2.], [2., -2., 2.], [2., 2., -2.], [2., 2., 2.], [3.23607, 1.23607, 0.], [3.23607, -1.23607, 0.], [-3.23607, -1.23607, 0.], [-3.23607, 1.23607, 0.], [0., 3.23607, 1.23607], [0., 3.23607, -1.23607], [0., -3.23607, -1.23607], [0., -3.23607, 1.23607], [1.23607, 0., 3.23607], [-1.23607, 0., 3.23607], [-1.23607, 0., -3.23607], [1.23607, 0., -3.23607]];
-let dod_index2 = [[15, 16, 2, 11, 1], [11, 12, 3, 19, 1], [19, 20, 5, 15, 1], [2, 18, 4, 12, 11], [3, 12, 4, 13, 14], [3, 14, 7, 20, 19], [2, 16, 6, 17, 18], [18, 17, 8, 13, 4], [5, 10, 6, 16, 15], [5, 20, 7, 9, 10], [10, 9, 8, 17, 6], [14, 13, 8, 9, 7]];
-for(let i=0; i<dod_vts2.length; i++){
-    let x1 = dod_vts2[i][0];
-    let y1 = dod_vts2[i][1];
-    dod_vts2[i][0] = y1;
-    dod_vts2[i][1] = -x1;
-}
-
-
-let cube_vts2 = [ [1,1,1], [-1,1,1], [-1,-1,1], [1,-1,1], [1,1,-1], [-1,1,-1], [-1,-1,-1], [1,-1,-1]];
-let cube_index2 = [[0,1,2,3], [4,5,6,7], [0,1,5,4], [1,2,6,5], [2,3,7,6], [3,0,4,7]];
-
-let octa_vts2 = [ [1,0,0], [0,1,0], [0,0,1], [0,-1,0], [0,0,-1], [-1,0,0] ];
-let octa_index2 = [ [0,1,2], [0,2,3], [0,3,4], [0,4,1], [5,1,2], [5,2,3], [5,3,4], [5,4,1]];
+dummymesh_common.rotation.set(0.4, 0.2, 0); //初期姿勢（x-y-z系オイラー角）
 
 
 //#############################################################
@@ -150,10 +120,6 @@ let tube_material = [
 ];
 
 
-// for(let i=0; i<tube_material.length; i++){
-//     tube_material[i] = new THREE.MeshLambertMaterial({ color: 0x0077ff, side:THREE.DoubleSide});
-// }
-
 
 let meshgroup = new THREE.Group();  //全てのチューブを１つにまとめたグループ　マウスドラッグ時、グループごと回転させる
 scene1.add(meshgroup);
@@ -186,16 +152,11 @@ function main(){
 
     disposeSceneMeshes(scene1, meshgroup);  //meshgroupのジオメトリ・マテリアルを破棄した後、scene1からmeshgroupを取り除く
 
-    //addMeshC(octa_vts2, octa_index2, {color:0xffffff, flatshade:true, opacity:0.6, scale:4});
-
     meshgroup = new THREE.Group();  //meshgroupを再定義
 
     rotate_angle = -Math.PI/2*Number(slidera.value);    //角度・太さ・長さを更新　Number(slider.value)は0から1の値
     tube_thick = Number(sliderb.value)*0.6 + 0.1;
     tube_length = Number(sliderc.value)*5;
-
-    //rotate_angle = Math.PI / 2;
-    //tube_length = 1.41;
 
     //多面体の辺の数だけループを回してチューブを生成する
     for(let i=0; i<edge.length; i++){
@@ -351,9 +312,6 @@ select1.addEventListener('change',()=>{
             hide_elements_array[i].hidden = true;   //classが"hideElement"のhtml要素を非表示にする
         }
 
-        document.getElementById("img1").src = "cube2.png";
-        document.getElementById("img2").src = "octa2.png";
-
     }else{  //基本となる多面体が正二十面体
 
         //頂点リスト・辺インデックスリストを正二十面体のものに置き換える
@@ -371,9 +329,6 @@ select1.addEventListener('change',()=>{
         for(let i=0; i<hide_elements_array.length; i++){
             hide_elements_array[i].hidden = false;  //classが"hideElement"のhtml要素を表示する
         }
-
-        document.getElementById("img1").src = "ico2.png";
-        document.getElementById("img2").src = "dod2.png";
     }
 });
 
@@ -516,95 +471,3 @@ function disposeSceneMeshes(scene, group) {
   scene.remove(group);
 }
 
-
-
-//シーンにオブジェクトを追加する    引数：シーン, 頂点リスト, ポリゴンインデックスリスト, オプション
-function addMeshC(vtsa, indexa, optiona){
-    
-    const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, visible:true, flatshade:false, wireframe:false, spherecutradius:-1, side:0,
-        envMap:null, metalness:0, roughness:1, position:[0,0,0]
-    }; //デフォルトのオプション
-    optiona = {...defaultoption, ...optiona};   //デフォルトオプションと引数で渡されたオプションのマージ（引数のオプションを優先）
-
-    let geometry1 = new THREE.BufferGeometry(); //ジオメトリの生成
-
-    if(getvalueC(optiona.spherecutradius)!=-1){ //球面カットを行う場合
-        let vts1 = vtsa;
-        if(typeof vts1 == "string")    vts1 = eval(vts1);
-        let vts_original = eval(vts1).flat();
-        let tmp = spherecutC(vts_original, tripolyC(indexa).flat(), getvalueC(optiona.spherecutradius));   //球面カット後のgraphic complexを算出
-        geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts_original.length * 2), 3));    //頂点数の2倍のサイズの配列を仮に頂点リストとして設定（後に頂点数が増えたときのために使用メモリに余裕を持たせる）
-        geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(tmp[1]), 1));  //ポリゴンインデックスリストを設定
-        geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
-        geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(tmp[0]), 3));  //頂点座標の設定
-        geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
-        
-    }else{  //球面カットを行わない場合
-        let vts1 = vtsa;
-        if(typeof vts1 == "string")    vts1 = eval(vts1);
-        geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(eval(vts1).flat()), 3));  //頂点座標の設定
-        geometry1.setIndex(new THREE.BufferAttribute(new Uint32Array(tripolyC(indexa).flat()),1)); //ポリゴンインデックスの設定
-        geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
-    }
-
-
-    let material1 = new THREE.MeshStandardMaterial({    //マテリアルの設定
-        flatShading:getvalueC(optiona.flatshade),   //フラットシェード
-        color: getvalueC(optiona.color),    //色
-        side:THREE.DoubleSide,
-        wireframe:getvalueC(optiona.wireframe),    //ワイヤーフレーム
-        transparent:true,   //透過モード
-        opacity:getvalueC(optiona.opacity),  //透明度
-        metalness:getvalueC(optiona.metalness),
-        roughness:getvalueC(optiona.roughness),
-    });
-
-    if(optiona.side==0) material1.side = THREE.DoubleSide;
-    if(optiona.side==1) material1.side = THREE.FrontSide;
-    if(optiona.side==2) material1.side = THREE.BackSide;
-
-    let mesh1 = new THREE.Mesh(geometry1, material1);   //メッシュ（ジオメトリ＋マテリアル）の生成
-    mesh1.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
-    mesh1.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
-    mesh1.position.set(optiona.position[0], optiona.position[1], optiona.position[2]);
-    mesh1.visible = getvalueC(optiona.visible);
-
-    //メッシュに頂点リスト・ポリゴンインデックスリスト・オプション情報を付与（メッシュを後で更新するのに使用）
-    mesh1.vtsstring = vtsa;
-    if(typeof vtsa != "string") mesh1.vtsstring = JSON.stringify(vtsa);    
-    mesh1.originalindex = tripolyC(indexa);
-    mesh1.originalOption = optiona;
-    mesh1.className = 'meshC';
-
-    //if(optiona.class!=undefined)    mesh1.class1 = optiona.class;
-    
-    scene1.add(mesh1);  //シーンにメッシュを追加する
-
-
-    return mesh1;
-}
-
-
-
-//文字列にした変数を翻訳し、現在のその変数の値を取得する
-function getvalueC(arg){
-    if(typeof(arg)==='string'){
-        if(arg.charAt(0)=='#')  return arg;
-        return eval(arg);
-    }
-    return arg;
-}
-
-
-
-
-//多角形ポリゴンのポリゴンインデックスを三角形ポリゴンに変換してフラット
-function tripolyC(list){
-    let result = [];
-    for(let i=0; i<list.length; i++){ //三角ポリゴンに変換
-        for(let j=0; j<list[i].length-2; j++){
-            result.push([list[i][0], list[i][1+j], list[i][2+j]]);
-        }
-    }
-    return result;
-}
