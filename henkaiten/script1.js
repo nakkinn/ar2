@@ -120,13 +120,16 @@ edge = new Array(ico_edge.length);
 for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
 
 
+let color_type = "6cola";
+let kihon_type = "ico_dod";
 
-const select1 = document.getElementById('select1');     //基本となる多面体セレクトボックス
-const select2 = document.getElementById('select2');     //配色セレクトボックス
-const select3 = document.getElementById('select3');     //顕著な図形セレクトボックス
 
-select1.value = 'option2';  //基本となる多面体の初期値を正二十面体から正十二面体にする（2つ目の選択肢）
-select2.value = '6cola';    //配色の初期値
+// const select1 = document.getElementById('select1');     //基本となる多面体セレクトボックス
+// const select2 = document.getElementById('select2');     //配色セレクトボックス
+// const select3 = document.getElementById('select3');     //顕著な図形セレクトボックス
+
+// select1.value = 'option2';  //基本となる多面体の初期値を正二十面体から正十二面体にする（2つ目の選択肢）
+// select2.value = '6cola';    //配色の初期値
 
 
 //角度・太さ・長さの変数定義　初期値をスライダーの値を使って決定
@@ -230,11 +233,11 @@ function main(){
         let cl=0;
 
         //辺番号と配色のセレクトボックスの値で辺の色を決定する
-        if(select1.value=='option1' || select2.value=='option1'){   //立方体モードまたは単色モードのとき
+        if(kihon_type=='cube_octa' || color_type=='1col'){   //立方体モードまたは単色モードのとき
 
             cl = 4;
 
-        }else if(select2.value=='6cola'){
+        }else if(color_type=='6cola'){
 
             //5本平行棒
             if(i==0 || i==13 || i==16 || i==19 || i==25)    cl = 0;
@@ -244,7 +247,7 @@ function main(){
             if(i==4 || i==7 || i==9 || i==21 || i==27)    cl = 4;
             if(i==5 || i==15 || i==20 || i==26 || i==29)    cl = 5;
             
-        }else if(select2.value == '6colb'){
+        }else if(color_type == '6colb'){
 
             //5角形6個
             cl = 5;
@@ -254,7 +257,7 @@ function main(){
             if(i==3 || i==8 || i==24 || i==9 || i==20)    cl=3;
             if(i==4 || i==5 || i==11 || i==16 || i==18)    cl=4;
 
-        }else if(select2.value=='5col'){
+        }else if(color_type=='5col'){
 
             //正四面体5個
             cl = 0;
@@ -263,7 +266,7 @@ function main(){
             if(i==2 || i==11 || i==7 || i==17 || i==20 || i==25)  cl=3;
             if(i==3 || i==13 || i==22 || i==27 || i==5 || i==14)  cl=4;
 
-        }else if(select2.value == '10cola'){
+        }else if(color_type == '10cola'){
 
             //正三角形10個
             if(i==1 || i==5 || i==9)    cl = 1;
@@ -276,7 +279,7 @@ function main(){
             if(i==11 || i==0 || i==15)  cl = 8;
             if(i==19 || i==21 || i==23)  cl = 9;
             
-        }else if(select2.value == '10colb'){
+        }else if(color_type == '10colb'){
             
             //3本平行棒
             if(i==0 || i==10 || i==14)    cl = 1;
@@ -312,171 +315,482 @@ main();
 const label1 = document.getElementById('label1');
 
 
+const button_ico_dod = document.getElementById("button_ico_dod");
+const button_cube_octa = document.getElementById("button_cube_octa");
+
+const button_1col = document.getElementById("button_1col");
+const button_5col = document.getElementById("button_5col");
+const button_6cola = document.getElementById("button_6cola");
+const button_6colb = document.getElementById("button_6colb");
+const button_10cola = document.getElementById("button_10cola");
+const button_10colb = document.getElementById("button_10colb");
+
+const button_ico = document.getElementById("button_ico");
+const button_triangle = document.getElementById("button_triangle");
+const button_5parallel = document.getElementById("button_5parallel");
+const button_tetra = document.getElementById("button_tetra");
+const button_pentagon = document.getElementById("button_pentagon");
+const button_star = document.getElementById("button_star");
+const button_3parallel = document.getElementById("button_3parallel");
+const button_dodeca = document.getElementById("button_dodeca");
+
+
+let fontcolor1 = "#999999";
+let fontcolor2 = "#000000";
+
+button_cube_octa.style.color = fontcolor1;
+button_ico_dod.style.color = fontcolor2;
+button_cube_octa.style.fontWeight = "normal";
+button_ico_dod.style.fontWeight = "bold";
+
+button_cube_octa.addEventListener("click",()=>{
+
+    kihon_type = "cube_octa";
+
+    //頂点リスト・辺インデックスリストを立方体のものに置き換える
+    vts = new Array(cube_vts.length);
+    for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+    edge = new Array(cube_edge.length);
+    for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+
+    main(); //チューブの再生成
+
+    camera1.zoom *= 1.25;   //大きめに表示
+    camera1.updateProjectionMatrix();   //カメラ情報の変更を適用
+
+    let hide_elements_array = document.getElementsByClassName("hideElement");   //classが"hideElement"のhtml要素のリストを取得する
+    for(let i=0; i<hide_elements_array.length; i++){
+        hide_elements_array[i].hidden = true;   //classが"hideElement"のhtml要素を非表示にする
+    }
+
+    document.getElementById("img1").src = "cube2.png";
+    document.getElementById("img2").src = "octa2.png";
+
+    
+    button_cube_octa.style.color = fontcolor2;
+    button_ico_dod.style.color = fontcolor1;
+    button_cube_octa.style.fontWeight = "bold";
+    button_ico_dod.style.fontWeight = "normal";
+    
+
+});
+
+
+
+button_ico_dod.addEventListener("click",()=>{
+
+    kihon_type = "ico_dod";
+
+    //頂点リスト・辺インデックスリストを正二十面体のものに置き換える
+    vts = new Array(ico_vts.length);
+    for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+    edge = new Array(ico_edge.length);
+    for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
+
+    main(); 
+
+    camera1.zoom *= 0.8;
+    camera1.updateProjectionMatrix();   
+
+    let hide_elements_array = document.getElementsByClassName("hideElement");   
+    for(let i=0; i<hide_elements_array.length; i++){
+        hide_elements_array[i].hidden = false;  //classが"hideElement"のhtml要素を表示する
+    }
+
+    document.getElementById("img1").src = "ico2.png";
+    document.getElementById("img2").src = "dod2.png";
+
+    button_cube_octa.style.color = fontcolor1;
+    button_ico_dod.style.color = fontcolor2;
+    button_cube_octa.style.fontWeight = "normal";
+    button_ico_dod.style.fontWeight = "bold";
+
+});
+
+
+button_ico.addEventListener("click",()=>{
+    slidera.value = 0;
+    sliderb.value = 0.16;
+    sliderc.value = 0.18;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    main();
+});
+
+button_triangle.addEventListener("click",()=>{
+    slidera.value = 0.232;
+    sliderb.value = 0.2;
+    sliderc.value = 0.56;
+    color_type = '10cola';
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    main();
+});
+
+button_5parallel.addEventListener("click",()=>{
+    slidera.value = 0.348;
+    sliderb.value = 0.35;
+    sliderc.value = 0.26;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    color_type = '6cola';
+    main();
+});
+
+button_pentagon.addEventListener("click",()=>{
+    slidera.value = 0.648;
+    sliderb.value = 0.26;
+    sliderc.value = 0.23;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    color_type = '6colb';
+    main();
+});
+
+button_star.addEventListener("click",()=>{
+    slidera.value = 0.648;
+    sliderb.value = 0.26;
+    sliderc.value = 0.98;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    color_type = '6colb';
+    main();
+});
+
+button_3parallel.addEventListener("click",()=>{
+    slidera.value = 0.768;
+    sliderb.value = 0.2;
+    sliderc.value = 0.26;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    color_type = '10colb';
+    main();
+});
+
+button_tetra.addEventListener("click",()=>{
+    slidera.value = 0.5;
+    sliderb.value = 0.23;
+    sliderc.value = 0.45;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    color_type = '5col';
+    main();
+});
+
+button_dodeca.addEventListener("click",()=>{
+    slidera.value = 1;
+    sliderb.value = 0.18;
+    sliderc.value = 0.12;
+    slidera.update();
+    sliderb.update();
+    sliderc.update();
+    main();
+});
+
+
+
+button_1col.style.color = fontcolor1;
+button_5col.style.color = fontcolor1;
+button_6cola.style.color = fontcolor2;
+button_6colb.style.color = fontcolor1;
+button_10cola.style.color = fontcolor1;
+button_10colb.style.color = fontcolor1;
+
+button_1col.style.fontWeight = "normal";
+button_5col.style.fontWeight = "normal";
+button_6cola.style.fontWeight = "bold";
+button_6colb.style.fontWeight = "normal";
+button_10cola.style.fontWeight = "normal";
+button_10colb.style.fontWeight = "normal";
+
+button_1col.addEventListener("click",()=>{
+    color_type = "1col";
+    main();
+
+    button_1col.style.color = fontcolor2;
+    button_5col.style.color = fontcolor1;
+    button_6cola.style.color = fontcolor1;
+    button_6colb.style.color = fontcolor1;
+    button_10cola.style.color = fontcolor1;
+    button_10colb.style.color = fontcolor1;
+
+    button_1col.style.fontWeight = "bold";
+    button_5col.style.fontWeight = "normal";
+    button_6cola.style.fontWeight = "normal";
+    button_6colb.style.fontWeight = "normal";
+    button_10cola.style.fontWeight = "normal";
+    button_10colb.style.fontWeight = "normal";
+
+});
+
+button_5col.addEventListener("click",()=>{
+    color_type = "5col";
+    main();
+    button_1col.style.color = fontcolor1;
+    button_5col.style.color = fontcolor2;
+    button_6cola.style.color = fontcolor1;
+    button_6colb.style.color = fontcolor1;
+    button_10cola.style.color = fontcolor1;
+    button_10colb.style.color = fontcolor1;
+
+    button_1col.style.fontWeight = "normal";
+    button_5col.style.fontWeight = "bold";
+    button_6cola.style.fontWeight = "normal";
+    button_6colb.style.fontWeight = "normal";
+    button_10cola.style.fontWeight = "normal";
+    button_10colb.style.fontWeight = "normal";
+});
+
+button_6cola.addEventListener("click",()=>{
+    color_type = "6cola";
+    main();
+    button_1col.style.color = fontcolor1;
+    button_5col.style.color = fontcolor1;
+    button_6cola.style.color = fontcolor2;
+    button_6colb.style.color = fontcolor1;
+    button_10cola.style.color = fontcolor1;
+    button_10colb.style.color = fontcolor1;
+
+    button_1col.style.fontWeight = "normal";
+    button_5col.style.fontWeight = "normal";
+    button_6cola.style.fontWeight = "bold";
+    button_6colb.style.fontWeight = "normal";
+    button_10cola.style.fontWeight = "normal";
+    button_10colb.style.fontWeight = "normal";
+});
+
+button_6colb.addEventListener("click",()=>{
+    color_type = "6colb";
+    main();
+    button_1col.style.color = fontcolor1;
+    button_5col.style.color = fontcolor1;
+    button_6cola.style.color = fontcolor1;
+    button_6colb.style.color = fontcolor2;
+    button_10cola.style.color = fontcolor1;
+    button_10colb.style.color = fontcolor1;
+
+    button_1col.style.fontWeight = "normal";
+    button_5col.style.fontWeight = "normal";
+    button_6cola.style.fontWeight = "normal";
+    button_6colb.style.fontWeight = "bold";
+    button_10cola.style.fontWeight = "normal";
+    button_10colb.style.fontWeight = "normal";
+});
+
+button_10cola.addEventListener("click",()=>{
+    color_type = "10cola";
+    main();
+    button_1col.style.color = fontcolor1;
+    button_5col.style.color = fontcolor1;
+    button_6cola.style.color = fontcolor1;
+    button_6colb.style.color = fontcolor1;
+    button_10cola.style.color = fontcolor2;
+    button_10colb.style.color = fontcolor1;
+
+    button_1col.style.fontWeight = "normal";
+    button_5col.style.fontWeight = "normal";
+    button_6cola.style.fontWeight = "normal";
+    button_6colb.style.fontWeight = "normal";
+    button_10cola.style.fontWeight = "bold";
+    button_10colb.style.fontWeight = "normal";
+});
+
+button_10colb.addEventListener("click",()=>{
+    color_type = "10colb";
+    main();
+    button_1col.style.color = fontcolor1;
+    button_5col.style.color = fontcolor1;
+    button_6cola.style.color = fontcolor1;
+    button_6colb.style.color = fontcolor1;
+    button_10cola.style.color = fontcolor1;
+    button_10colb.style.color = fontcolor2;
+
+    button_1col.style.fontWeight = "normal";
+    button_5col.style.fontWeight = "normal";
+    button_6cola.style.fontWeight = "normal";
+    button_6colb.style.fontWeight = "normal";
+    button_10cola.style.fontWeight = "normal";
+    button_10colb.style.fontWeight = "bold";
+});
+
 
 
 slidera.func = () =>{
     main();
-    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
+    //select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
 };
 
 sliderb.func = () =>{
     main();
-    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
+    //select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
 };
 
 sliderc.func = () =>{
     main();
-    select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
+    //select3.value = 'null'; //顕著な図形セレクトボックスの値をからの要素に変更する
 };
 
 
-//基本となる多面体を変更時の処理
-select1.addEventListener('change',()=>{
+// //基本となる多面体を変更時の処理
+// select1.addEventListener('change',()=>{
 
-    if(select1.value=='option1'){   //基本となる多面体が立方体
+//     if(select1.value=='option1'){   //基本となる多面体が立方体
 
-        //頂点リスト・辺インデックスリストを立方体のものに置き換える
-        vts = new Array(cube_vts.length);
-        for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
-        edge = new Array(cube_edge.length);
-        for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
+//         //頂点リスト・辺インデックスリストを立方体のものに置き換える
+//         vts = new Array(cube_vts.length);
+//         for(let i=0; i<vts.length; i++) vts[i] = cube_vts[i].concat();
+//         edge = new Array(cube_edge.length);
+//         for(let i=0; i<edge.length; i++)    edge[i] = cube_edge[i].concat();
 
-        main(); //チューブの再生成
+//         main(); //チューブの再生成
 
-        camera1.zoom *= 1.25;   //大きめに表示
-        camera1.updateProjectionMatrix();   //カメラ情報の変更を適用
+//         camera1.zoom *= 1.25;   //大きめに表示
+//         camera1.updateProjectionMatrix();   //カメラ情報の変更を適用
 
-        let hide_elements_array = document.getElementsByClassName("hideElement");   //classが"hideElement"のhtml要素のリストを取得する
-        for(let i=0; i<hide_elements_array.length; i++){
-            hide_elements_array[i].hidden = true;   //classが"hideElement"のhtml要素を非表示にする
-        }
+//         let hide_elements_array = document.getElementsByClassName("hideElement");   //classが"hideElement"のhtml要素のリストを取得する
+//         for(let i=0; i<hide_elements_array.length; i++){
+//             hide_elements_array[i].hidden = true;   //classが"hideElement"のhtml要素を非表示にする
+//         }
 
-        document.getElementById("img1").src = "cube2.png";
-        document.getElementById("img2").src = "octa2.png";
+//         document.getElementById("img1").src = "cube2.png";
+//         document.getElementById("img2").src = "octa2.png";
 
-    }else{  //基本となる多面体が正二十面体
+//     }else{  //基本となる多面体が正二十面体
 
-        //頂点リスト・辺インデックスリストを正二十面体のものに置き換える
-        vts = new Array(ico_vts.length);
-        for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
-        edge = new Array(ico_edge.length);
-        for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
+//         //頂点リスト・辺インデックスリストを正二十面体のものに置き換える
+//         vts = new Array(ico_vts.length);
+//         for(let i=0; i<vts.length; i++) vts[i] = ico_vts[i].concat();
+//         edge = new Array(ico_edge.length);
+//         for(let i=0; i<edge.length; i++)    edge[i] = ico_edge[i].concat();
 
-        main(); 
+//         main(); 
 
-        camera1.zoom *= 0.8;
-        camera1.updateProjectionMatrix();   
+//         camera1.zoom *= 0.8;
+//         camera1.updateProjectionMatrix();   
 
-        let hide_elements_array = document.getElementsByClassName("hideElement");   
-        for(let i=0; i<hide_elements_array.length; i++){
-            hide_elements_array[i].hidden = false;  //classが"hideElement"のhtml要素を表示する
-        }
+//         let hide_elements_array = document.getElementsByClassName("hideElement");   
+//         for(let i=0; i<hide_elements_array.length; i++){
+//             hide_elements_array[i].hidden = false;  //classが"hideElement"のhtml要素を表示する
+//         }
 
-        document.getElementById("img1").src = "ico2.png";
-        document.getElementById("img2").src = "dod2.png";
-    }
-});
-
-
-
-//色セレクトボックス変更時の処理
-select2.addEventListener('change',()=>{
-    main(); //チューブの再生成
-});
+//         document.getElementById("img1").src = "ico2.png";
+//         document.getElementById("img2").src = "dod2.png";
+//     }
+// });
 
 
 
-//顕著に表れる図形セレクトボックス変更時の処理
-select3.addEventListener('input',()=>{
+// //色セレクトボックス変更時の処理
+// select2.addEventListener('change',()=>{
+//     main(); //チューブの再生成
+// });
 
-    //スライダーの値を更新
-    if(select3.value=='ico'){
-        slidera.value = 0;
-        sliderb.value = 0.16;
-        sliderc.value = 0.18;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        main();
-    }
 
-    if(select3.value=='triangle'){
-        slidera.value = 0.232;
-        sliderb.value = 0.2;
-        sliderc.value = 0.56;
-        select2.value = '10cola';
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        main();
-    }
 
-    if(select3.value=='5parallel'){
-        slidera.value = 0.348;
-        sliderb.value = 0.35;
-        sliderc.value = 0.26;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        select2.value = '6cola';
-        main();
-    }
+// //顕著に表れる図形セレクトボックス変更時の処理
+// select3.addEventListener('input',()=>{
 
-    if(select3.value=='pentagon'){
-        slidera.value = 0.648;
-        sliderb.value = 0.26;
-        sliderc.value = 0.23;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        select2.value = '6colb';
-        main();
-    }
+//     //スライダーの値を更新
+//     if(select3.value=='ico'){
+//         slidera.value = 0;
+//         sliderb.value = 0.16;
+//         sliderc.value = 0.18;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         main();
+//     }
 
-    if(select3.value=='star'){
-        slidera.value = 0.648;
-        sliderb.value = 0.26;
-        sliderc.value = 0.98;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        select2.value = '6colb';
-        main();
-    }
+//     if(select3.value=='triangle'){
+//         slidera.value = 0.232;
+//         sliderb.value = 0.2;
+//         sliderc.value = 0.56;
+//         select2.value = '10cola';
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         main();
+//     }
 
-    if(select3.value=='3parallel'){
-        slidera.value = 0.768;
-        sliderb.value = 0.2;
-        sliderc.value = 0.26;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        select2.value = '10colb';
-        main();
-    }
+//     if(select3.value=='5parallel'){
+//         slidera.value = 0.348;
+//         sliderb.value = 0.35;
+//         sliderc.value = 0.26;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         select2.value = '6cola';
+//         main();
+//     }
 
-    if(select3.value=='tetra'){
-        slidera.value = 0.5;
-        sliderb.value = 0.23;
-        sliderc.value = 0.45;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        select2.value = '5col';
-        main();
-    }
+//     if(select3.value=='pentagon'){
+//         slidera.value = 0.648;
+//         sliderb.value = 0.26;
+//         sliderc.value = 0.23;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         select2.value = '6colb';
+//         main();
+//     }
 
-    if(select3.value=='dodeca'){
-        slidera.value = 1;
-        sliderb.value = 0.18;
-        sliderc.value = 0.12;
-        slidera.update();
-        sliderb.update();
-        sliderc.update();
-        main();
-    }
+//     if(select3.value=='star'){
+//         slidera.value = 0.648;
+//         sliderb.value = 0.26;
+//         sliderc.value = 0.98;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         select2.value = '6colb';
+//         main();
+//     }
 
-});
+//     if(select3.value=='3parallel'){
+//         slidera.value = 0.768;
+//         sliderb.value = 0.2;
+//         sliderc.value = 0.26;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         select2.value = '10colb';
+//         main();
+//     }
+
+//     if(select3.value=='tetra'){
+//         slidera.value = 0.5;
+//         sliderb.value = 0.23;
+//         sliderc.value = 0.45;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         select2.value = '5col';
+//         main();
+//     }
+
+//     if(select3.value=='dodeca'){
+//         slidera.value = 1;
+//         sliderb.value = 0.18;
+//         sliderc.value = 0.12;
+//         slidera.update();
+//         sliderb.update();
+//         sliderc.update();
+//         main();
+//     }
+
+// });
+
+
+
+
+
+
 
 
 

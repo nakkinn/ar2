@@ -20,7 +20,7 @@
 
       <details id="mydetail" style="overflow-wrap:break-word;">  <!--折り畳み　openを付けると最初から開いた状態になる-->
         <summary id="summary_label">説明を開く</summary>
-        <p>
+        <p style="margin-top:0px;margin-bottom:0px;">
           多面体の全ての辺を中点で固定して一斉に回転させます。
           <br>
           スライダーで辺の回転量・太さ・長さを調整できます。
@@ -31,29 +31,11 @@
     </div>
 
 
-    <div style="display:flex;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
 
-      <h4 style="margin:5px;font-size:min(16px,4vw);" hidden>基本となる多面体　</h4>
+    <button id="button_ico_dod">正20面体から正12面体</button>
+    <button id="button_cube_octa">立方体から正8面体</button>
 
-      <select id="select1" style="font-size:min(16px,4vw);">
-        <option value="option1">立方体から正8面体</option>
-        <option value="option2">正20面体から正12面体</option>
-      </select>
-
-
-  
-      <!-- <h4 style="margin-left:20px;font-size:min(16px,4vw);" class="hideElement">配色</h4> -->
-
-      <select id="select2" style="margin-left:20px;font-size:min(16px,4vw);" class="hideElement">
-        <option value="1col">1色</option>
-        <option value="5col">5色</option>
-        <option value="6cola">6色A</option>
-        <option value="6colb">6色B</option>
-        <option value="10cola">10色A</option>
-        <option value="10colb">10色B</option>
-      </select>
-
-    </div>
+    <div style="height:10px"></div>
 
 
     <canvas id="canvas1" style="margin-left:-8px;"></canvas> <!--id名は"canvas1"にする-->
@@ -101,29 +83,31 @@
     </div>
 
 
-    <div style="height:5px"></div>
+    <div style="height:10px"></div>
 
+    <button id="button_1col" class="hideElement">1色</button>
+    <button id="button_5col" class="hideElement">5色</button>
+    <button id="button_6cola" class="hideElement">6色A</button>
+    <button id="button_6colb" class="hideElement">6色B</button>
+    <button id="button_10cola" class="hideElement">10色A</button>
+    <button id="button_10colb" class="hideElement">10色B</button>
 
-    <div style="display:flex;align-items:center;flex-wrap:wrap;" id="kakushi2">
+    <div style="height:10px"></div>
+
+    <details  class="hideElement">
+
+      <summary>途中に現れる顕著な図形（開く / 閉じる）</summary>
+
+      <button id="button_ico">正二十面体</button>
+      <button id="button_triangle">正三角形10個絡み</button>
+      <button id="button_5parallel">5本平行棒6筋</button>
+      <button id="button_tetra">正四面体5個</button>
+      <button id="button_pentagon">正五角形6つ絡み</button>
+      <button id="button_star">星型6つ絡み</button>
+      <button id="button_3parallel">3本平行棒10筋</button>
+      <button id="button_dodeca">正十二面体</button>
   
-      <h4 style="margin:5px;font-size:min(16px,4vw);" class="hideElement">途中に現れる顕著な図形　</h4>
-
-      <select id="select3" style="font-size:min(16px,4vw);" class="hideElement">
-        <option value="ico">正二十面体</option>
-        <option value="triangle">正三角形10個絡み</option>
-        <option value="5parallel">5本平行棒6筋</option>
-        <option value="tetra">正四面体5個</option>
-        <option value="pentagon">正五角形6つ絡み</option>
-        <option value="star">星型6つ絡み</option>
-        <option value="3parallel">3本平行棒10筋</option>
-        <option value="dodeca">正十二面体</option>
-        <option value="null"></option>
-      </select>
-
-    </div>
-
-
-  
+    </details>
 
 
     <!--three.jsライブラリ-->
