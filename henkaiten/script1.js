@@ -416,6 +416,8 @@ button_ico.addEventListener("click",()=>{
     sliderb.update();
     sliderc.update();
     main();
+    camera1.zoom = 1;
+    camera1.updateProjectionMatrix();
 });
 
 button_triangle.addEventListener("click",()=>{
@@ -427,6 +429,8 @@ button_triangle.addEventListener("click",()=>{
     sliderb.update();
     sliderc.update();
     main();
+    camera1.zoom = 0.7;
+    camera1.updateProjectionMatrix();
 });
 
 button_5parallel.addEventListener("click",()=>{
@@ -438,6 +442,8 @@ button_5parallel.addEventListener("click",()=>{
     sliderc.update();
     color_type = '6cola';
     main();
+    camera1.zoom = 1;
+    camera1.updateProjectionMatrix();
 });
 
 button_pentagon.addEventListener("click",()=>{
@@ -449,6 +455,8 @@ button_pentagon.addEventListener("click",()=>{
     sliderc.update();
     color_type = '6colb';
     main();
+    camera1.zoom = 1;
+    camera1.updateProjectionMatrix();
 });
 
 button_star.addEventListener("click",()=>{
@@ -460,6 +468,8 @@ button_star.addEventListener("click",()=>{
     sliderc.update();
     color_type = '6colb';
     main();
+    camera1.zoom = 0.5;
+    camera1.updateProjectionMatrix();
 });
 
 button_3parallel.addEventListener("click",()=>{
@@ -471,6 +481,8 @@ button_3parallel.addEventListener("click",()=>{
     sliderc.update();
     color_type = '10colb';
     main();
+    camera1.zoom = 1;
+    camera1.updateProjectionMatrix();
 });
 
 button_tetra.addEventListener("click",()=>{
@@ -482,6 +494,8 @@ button_tetra.addEventListener("click",()=>{
     sliderc.update();
     color_type = '5col';
     main();
+    camera1.zoom = 0.8;
+    camera1.updateProjectionMatrix();
 });
 
 button_dodeca.addEventListener("click",()=>{
@@ -492,6 +506,8 @@ button_dodeca.addEventListener("click",()=>{
     sliderb.update();
     sliderc.update();
     main();
+    camera1.zoom = 1.2;
+    camera1.updateProjectionMatrix();
 });
 
 
